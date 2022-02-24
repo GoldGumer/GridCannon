@@ -53,32 +53,9 @@ void Deck::CuttingTheDeck()
 	[1,2,3,4,5,6,7,8,9,10] into [6,7,8,9,10,1,2,3,4,5]
 	*/
 	stack<Card> cutDeck;
-	for (int i = 0; i < 2; i++)
-	{
-		
-		int iterations;
-		switch (i) {
-		case 0:
-			iterations = rand() % 10 + 27;
-			break;
-		case 1:
-			iterations = playerDeck.size();
-			break;
-		}
+	
 
 
-		stack<Card> reverseDeck;
-		for (int i = 0; i < iterations; i++)
-		{
-			reverseDeck.push(playerDeck.front());
-			playerDeck.pop();
-		}
-		for (int i = 0; i < iterations; i++)
-		{
-			cutDeck.push(reverseDeck.top());
-			reverseDeck.pop();
-		}
-	}
 	int iterations = cutDeck.size();
 	for (int i = 0; i < iterations; i++)
 	{
