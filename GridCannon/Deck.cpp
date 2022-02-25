@@ -4,14 +4,11 @@ using namespace std;
 
 void Deck::OverHandShfl()
 {
-	list<Card> shuffledCards;
-	while (playerCards.size() >= 10)
+	list<Card>::reverse_iterator pointer = playerCards.rbegin();
+	while (pointer != playerCards.rend())
 	{
-		list<Card>::iterator pointer = playerCards.begin();
-		advance(pointer, rand() % 10 + 1);
-		shuffledCards.splice(shuffledCards.begin(), playerCards, playerCards.begin(), pointer);
+		
 	}
-	playerCards.splice(playerCards.end(), shuffledCards);
 }
 
 void Deck::FaroShfl()
@@ -20,7 +17,7 @@ void Deck::FaroShfl()
 	advance(pointer, 28);
 	for (int i = 0; i < 27; i++)
 	{
-		advance(pointer, 1);
+		pointer++;
 		playerCards.splice(pointer, playerCards, playerCards.begin());
 	}
 }
@@ -39,7 +36,6 @@ void Deck::Shuffle()
 		srand((unsigned int)time(0));
 		OverHandShfl();
 		Cut();
-		FaroShfl();
 	}
 }
 
@@ -50,10 +46,12 @@ Deck::Deck()
 		for (int value = 0; value < 13; value++)
 		{
 			string facevalue = "999";
-			if (value < 10) {
+			if (value < 10)
+			{
 				facevalue = "0" + to_string(value) + to_string(suit);
 			}
-			else {
+			else
+			{
 				facevalue = to_string(value) + to_string(suit);
 			}
 
