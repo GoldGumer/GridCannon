@@ -1,20 +1,20 @@
 #pragma once
 #include "Card.h"
 #include <iostream>
-#include <queue>
+#include <list>
 
 class Deck
 {
 private:
-	queue<Card> playerDeck;
-	void OverHandShuffle();
-	void FaroShuffle();
-	void CuttingTheDeck();
+	list<Card> playerCards;
+	void OverHandShfl();
+	void FaroShfl();
+	void Cut();
 	void Shuffle();
 public:
 	Deck();
 	Card GetTopCard();
 	void SetTopCard(Card cardToAdd);
 	Card LookAtTopCard();
-	int GetDeckLength();
+	int GetLength();
 };

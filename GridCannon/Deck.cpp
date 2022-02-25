@@ -1,67 +1,35 @@
 #include "Deck.h"
 #include "Card.h"
-#include <stack>
 using namespace std;
 
-void Deck::OverHandShuffle()
+void Deck::OverHandShfl()
 {
-	bool shuffled = false;
-	stack<Card> shuffledDeck;
-	while (!shuffled)
+	list<Card> shuffledCards;
+	while (playerCards.size() >= 10)
 	{
-		int iterations = 0;
-		if (playerDeck.size() > 5)
-		{
-			iterations = rand() % 5 + 1;
-		}
-		else
-		{
-			iterations = playerDeck.size();
-			shuffled = true;
-		}
-		
-		/*
-		using 2 stacks since you need to reverse the first stack
-		essentially [1,2,3,4,5,6,7,8,9,10] are the inputs then this will output something along the lines of [9,10,6,7,8,5,2,3,4,1] 
-		accurate overhand shuffle
-		*/
-
-		stack<Card> reverseDeck;
-		for (int i = 0; i < iterations; i++)
-		{
-			reverseDeck.push(playerDeck.front());
-			playerDeck.pop();
-		}
-		for (int i = 0; i < iterations; i++)
-		{
-			shuffledDeck.push(reverseDeck.top());
-			reverseDeck.pop();
-		}
-
+		list<Card>::iterator pointer = playerCards.begin();
+		advance(pointer, rand() % 10 + 1);
+		shuffledCards.splice(shuffledCards.begin(), playerCards, playerCards.begin(), pointer);
 	}
-	int iterations = shuffledDeck.size();
-	for (int i = 0; i < iterations; i++)
+	playerCards.splice(playerCards.end(), shuffledCards);
+}
+
+void Deck::FaroShfl()
+{
+	list<Card>::iterator pointer = playerCards.begin();
+	advance(pointer, 28);
+	for (int i = 0; i < 27; i++)
 	{
-		playerDeck.push(shuffledDeck.top());
-		shuffledDeck.pop();
+		advance(pointer, 1);
+		playerCards.splice(pointer, playerCards, playerCards.begin());
 	}
 }
 
-void Deck::CuttingTheDeck()
+void Deck::Cut()
 {
-	/*
-	[1,2,3,4,5,6,7,8,9,10] into [6,7,8,9,10,1,2,3,4,5]
-	*/
-	stack<Card> cutDeck;
-	
-
-
-	int iterations = cutDeck.size();
-	for (int i = 0; i < iterations; i++)
-	{
-		playerDeck.push(cutDeck.top());
-		cutDeck.pop();
-	}
+	list<Card>::iterator pointer = playerCards.begin();
+	advance(pointer, rand() % 9 + 23);
+	playerCards.splice(playerCards.begin(), playerCards, pointer, playerCards.end());
 }
 
 void Deck::Shuffle()
@@ -69,7 +37,9 @@ void Deck::Shuffle()
 	for (int i = 0; i < 6; i++)
 	{
 		srand((unsigned int)time(0));
-		OverHandShuffle();
+		OverHandShfl();
+		Cut();
+		FaroShfl();
 	}
 }
 
@@ -77,7 +47,7 @@ Deck::Deck()
 {
 	for (int suit = 0; suit < 4; suit++)
 	{
-		for (int value = 0; value < 14; value++)
+		for (int value = 0; value < 13; value++)
 		{
 			string facevalue = "999";
 			if (value < 10) {
@@ -87,7 +57,7 @@ Deck::Deck()
 				facevalue = to_string(value) + to_string(suit);
 			}
 
-			playerDeck.push(Card(facevalue));
+			playerCards.push_front(Card(facevalue));
 		}
 	}
 
@@ -96,27 +66,27 @@ Deck::Deck()
 
 Card Deck::GetTopCard()
 {
-	return playerDeck.front();
-	playerDeck.pop();
+	return playerCards.front();
+	playerCards.pop_front();
 }
 
 void Deck::SetTopCard(Card cardToAdd)
 {
-	int iterations = playerDeck.size();
-	playerDeck.push(cardToAdd);
+	int iterations = playerCards.size();
+	playerCards.push_front(cardToAdd);
 	for (int i = 0; i < iterations; i++)
 	{
-		playerDeck.push(playerDeck.front());
-		playerDeck.pop();
+		playerCards.push_front(playerCards.front());
+		playerCards.pop_front();
 	}
 }
 
 Card Deck::LookAtTopCard()
 {
-	return playerDeck.front();
+	return playerCards.front();
 }
 
-int Deck::GetDeckLength()
+int Deck::GetLength()
 {
-	return playerDeck.size();
+	return playerCards.size();
 }
