@@ -2,31 +2,29 @@
 #include "Card.h"
 using namespace std;
 
-void Deck::OverHandShfl()
+void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
 {
-	list<Card>::reverse_iterator pointer = playerCards.rbegin();
-	while (pointer != playerCards.rend())
+	list<Card>::iterator topIt = playerCards.begin();
+	list<Card>::iterator botIt = playerCards.end();
+	while (distance(topIt, botIt) >= fixedAmountTaken + deviation - 1)
 	{
-		
+		int randInt = rand() % deviation + fixedAmountTaken;
+		advance(topIt, randInt);
+		playerCards.splice(botIt, playerCards, playerCards.begin(), topIt);
+		advance(botIt, -randInt);
 	}
 }
 
 void Deck::FaroShfl()
 {
-	list<Card>::iterator pointer = playerCards.begin();
-	advance(pointer, 28);
-	for (int i = 0; i < 27; i++)
-	{
-		pointer++;
-		playerCards.splice(pointer, playerCards, playerCards.begin());
-	}
+
 }
 
-void Deck::Cut()
+void Deck::Cut(int deviation)
 {
-	list<Card>::iterator pointer = playerCards.begin();
-	advance(pointer, rand() % 9 + 23);
-	playerCards.splice(playerCards.begin(), playerCards, pointer, playerCards.end());
+	list<Card>::iterator it = playerCards.begin();
+	advance(it, rand() % deviation + (GetLength() / 2) - ((deviation - 1) / 2));
+	playerCards.splice(playerCards.begin(), playerCards, it, playerCards.end());
 }
 
 void Deck::Shuffle()
@@ -34,8 +32,8 @@ void Deck::Shuffle()
 	for (int i = 0; i < 6; i++)
 	{
 		srand((unsigned int)time(0));
-		OverHandShfl();
-		Cut();
+		OverHandShfl(5, 5);
+		Cut(9);
 	}
 }
 
@@ -58,7 +56,7 @@ Deck::Deck()
 			playerCards.push_front(Card(facevalue));
 		}
 	}
-
+	for (int i = 0; i < 2; i++) playerCards.push_front(Card("134"));
 	Shuffle();
 }
 
@@ -70,13 +68,7 @@ Card Deck::GetTopCard()
 
 void Deck::SetTopCard(Card cardToAdd)
 {
-	int iterations = playerCards.size();
 	playerCards.push_front(cardToAdd);
-	for (int i = 0; i < iterations; i++)
-	{
-		playerCards.push_front(playerCards.front());
-		playerCards.pop_front();
-	}
 }
 
 Card Deck::LookAtTopCard()
