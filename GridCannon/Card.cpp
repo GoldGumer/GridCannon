@@ -70,7 +70,7 @@ Card::Card(string faceValue)
 		this->faceValue += "  _  ||        ( ) ||       (_ _)||         I  |";
 		break;
 	case 4:
-		this->faceValue += "/    ||   | / _    ||   | < /_\\  ||   | \\\\_    |";
+		this->faceValue += "/    ||   | / _    ||   |< /_\\   ||   | \\\\_    |";
 		break;
 	default:
 		this->faceValue += "     ||            ||            ||            |";
