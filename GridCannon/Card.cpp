@@ -39,13 +39,16 @@ Card::Card(string faceValue)
 		this->faceValue += "|/|  /\\      || | (  )     ||_|_ \\/ ";
 		break;
 	case 10:
-		this->faceValue += "|---         || |  /\\      ||\\| /--\\";
+		this->faceValue += "| ---        ||  |         || \\|    ";
 		break;
 	case 11:
-		this->faceValue += "|            ||            ||       ";
+		this->faceValue += "|  /\\        || ( \\)       ||  \\/\\  ";
 		break;
 	case 12:
-		this->faceValue += "|| /         |||<  o       ||| \\ I  ";
+		this->faceValue += "| | /        || |<         || | \\   ";
+		break;
+	case 13:
+		this->faceValue += "|   ---      ||    | /\\    ||   \\| \\";
 		break;
 	default:
 		this->faceValue += "|            ||            ||       ";
@@ -65,6 +68,9 @@ Card::Card(string faceValue)
 		break;
 	case 3:
 		this->faceValue += "  _  ||        ( ) ||       (_ _)||         I  |";
+		break;
+	case 4:
+		this->faceValue += "/    ||   | / _    ||   |< /_\\   ||   | \\\\_    |";
 		break;
 	default:
 		this->faceValue += "     ||            ||            ||            |";
