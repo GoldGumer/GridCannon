@@ -7,8 +7,9 @@ class Card
 {
 private:
 	string faceValue;
+	string displayGraphics[9];
 public:
 	Card(string faceValue);
 	string GetFaceValue();
-	void DisplayFaceValue(int line);
+	void DisplayFaceValue(unsigned int line);
 };

@@ -41,7 +41,7 @@ Deck::Deck()
 {
 	for (int suit = 0; suit < 4; suit++)
 	{
-		for (int value = 0; value < 13; value++)
+		for (int value = 1; value < 14; value++)
 		{
 			string facevalue = "999";
 			if (value < 10)
@@ -56,7 +56,7 @@ Deck::Deck()
 			playerCards.push_front(Card(facevalue));
 		}
 	}
-	for (int i = 0; i < 2; i++) playerCards.push_back(Card("134"));
+	for (int i = 0; i < 2; i++) playerCards.push_back(Card("004"));
 	Shuffle();
 }
 

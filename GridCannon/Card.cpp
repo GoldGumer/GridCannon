@@ -3,92 +3,142 @@ using namespace std;
 
 Card::Card(string faceValue)
 {
+	this->faceValue = faceValue;
+
 	//Top of the card
-	this->faceValue = faceValue + " ____________ |            |";
-	
+	displayGraphics[0] = " ____________ ";
+	displayGraphics[1] = "|            |";
+
 	//Number display adding
 	switch (stoi(faceValue.substr(0, 2))) {
 	case 0:
-		this->faceValue += "|  /\\        || /__\\       ||/    \\ ";
+		displayGraphics[2] = "|   ---      |";
+		displayGraphics[3] = "|    | /\\    |";
+		displayGraphics[4] = "|   \\| \\";
 		break;
 	case 1:
-		this->faceValue += "|  __        ||  __|       || |__   ";
+		displayGraphics[2] = "|  /\\        |";
+		displayGraphics[3] = "| /__\\       |";
+		displayGraphics[4] = "|/    \\ ";
 		break;
 	case 2:
-		this->faceValue += "| __         ||  _)        || __)   ";
+		displayGraphics[2] = "|  __        |";
+		displayGraphics[3] = "|  __|       |";
+		displayGraphics[4] = "| |__   ";
 		break;
 	case 3:
-		this->faceValue += "|  /|        || /_|_       ||   |   ";
+		displayGraphics[2] = "| __         |";
+		displayGraphics[3] = "|  _)        |";
+		displayGraphics[4] = "| __)   ";
 		break;
 	case 4:
-		this->faceValue += "|  __        || |__        ||  __|  ";
+		displayGraphics[2] = "|  /|        |";
+		displayGraphics[3] = "| /_|_       |";
+		displayGraphics[4] = "|   |   ";
 		break;
 	case 5:
-		this->faceValue += "|  __        || |__        || |__|  ";
+		displayGraphics[2] = "|  __        |";
+		displayGraphics[3] = "| |__        |";
+		displayGraphics[4] = "|  __|  ";
 		break;
 	case 6:
-		this->faceValue += "| ___        ||   /        ||  /    ";
+		displayGraphics[2] = "|  __        |";
+		displayGraphics[3] = "| |__        |";
+		displayGraphics[4] = "| |__|  ";
 		break;
 	case 7:
-		this->faceValue += "|  __        || (__)       || (__)  ";
+		displayGraphics[2] = "| ___        |";
+		displayGraphics[3] = "|   /        |";
+		displayGraphics[4] = "|  /    ";
 		break;
 	case 8:
-		this->faceValue += "|  __        || (__)       ||  __)  ";
+		displayGraphics[2] = "|  __        |";
+		displayGraphics[3] = "| (__)       |";
+		displayGraphics[4] = "| (__)  ";
 		break;
 	case 9:
-		this->faceValue += "|/|  /\\      || | (  )     ||_|_ \\/ ";
+		displayGraphics[2] = "|  __        |";
+		displayGraphics[3] = "| (__)       |";
+		displayGraphics[4] = "|  __)  ";
 		break;
 	case 10:
-		this->faceValue += "| ---        ||  |         || \\|    ";
+		displayGraphics[2] = "|/|  /\\      |";
+		displayGraphics[3] = "| | (  )     |";
+		displayGraphics[4] = "|_|_ \\/ ";
 		break;
 	case 11:
-		this->faceValue += "|  /\\        || ( \\)       ||  \\/\\  ";
+		displayGraphics[2] = "| ---        |";
+		displayGraphics[3] = "|  |         |";
+		displayGraphics[4] = "| \\|    ";
 		break;
 	case 12:
-		this->faceValue += "| | /        || |<         || | \\   ";
+		displayGraphics[2] = "|  /\\        |";
+		displayGraphics[3] = "| ( \\)       |";
+		displayGraphics[4] = "|  \\/\\  ";
 		break;
 	case 13:
-		this->faceValue += "|   ---      ||    | /\\    ||   \\| \\";
+		displayGraphics[2] = "| | /        |";
+		displayGraphics[3] = "| |<         |";
+		displayGraphics[4] = "| | \\   ";
 		break;
 	default:
-		this->faceValue += "|            ||            ||       ";
+		displayGraphics[2] = "|            |";
+		displayGraphics[3] = "|            |";
+		displayGraphics[4] = "|       ";
 		break;
 	}
 
 	//Suit display adding
 	switch (stoi(faceValue.substr(2, 1))) {
 	case 0:
-		this->faceValue += "  ^  ||        / \\ ||        \\ / ||         v  |";
+		displayGraphics[4] += "  ^  |";
+		displayGraphics[5] = "|        / \\ |";
+		displayGraphics[6] = "|        \\ / |";
+		displayGraphics[7] = "|         v  |";
 		break;
 	case 1:
-		this->faceValue += "  ^  ||        / \\ ||       (_ _)||         I  |";
+		displayGraphics[4] += "  ^  |";
+		displayGraphics[5] = "|        / \\ |";
+		displayGraphics[6] = "|       (_ _)|";
+		displayGraphics[7] = "|         I  |";
 		break;
 	case 2:
-		this->faceValue += " _ _ ||       ( V )||        \\ / ||         v  |";
+		displayGraphics[4] += " _ _ |";
+		displayGraphics[5] = "|       ( V )|";
+		displayGraphics[6] = "|        \\ / |";
+		displayGraphics[7] = "|         v  |";
 		break;
 	case 3:
-		this->faceValue += "  _  ||        ( ) ||       (_ _)||         I  |";
+		displayGraphics[4] += "  _  |";
+		displayGraphics[5] = "|        ( ) |";
+		displayGraphics[6] = "|       (_ _)|";
+		displayGraphics[7] = "|         I  |";
 		break;
 	case 4:
-		this->faceValue += "/    ||   | / _    ||   |< /_\\   ||   | \\\\_    |";
+		displayGraphics[4] += "/    |";
+		displayGraphics[5] = "|   | / _    |";
+		displayGraphics[6] = "|   |< /_\\   |";
+		displayGraphics[7] = "|   | \\\\_    |";
 		break;
 	default:
-		this->faceValue += "     ||            ||            ||            |";
+		displayGraphics[4] += "     |";
+		displayGraphics[5] = "|            |";
+		displayGraphics[6] = "|            |";
+		displayGraphics[7] = "|            |";
 		break;
 	}
 
 	//Bottom of the card
-	this->faceValue += "|____________|";
+	displayGraphics[8] = "|____________|";
 }
 
 string Card::GetFaceValue()
 {
-	return faceValue.substr(0,3);
+	return faceValue;
 }
 
-void Card::DisplayFaceValue(int line)
+void Card::DisplayFaceValue(unsigned int line)
 {
 	if (line > 8) line = 8;
-	else if (line < 0) line = 0;
-	cout << faceValue.substr(3 + 14 * line, 14);
+	cout << displayGraphics[line];
 }
