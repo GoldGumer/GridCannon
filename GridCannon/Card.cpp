@@ -132,6 +132,11 @@ Card::Card(string faceValue)
 	displayGraphics[8] = "|____________|";
 }
 
+Card::Card()
+{
+	Card("999");
+}
+
 string Card::GetFaceValue()
 {
 	return faceValue;
