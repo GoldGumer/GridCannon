@@ -8,7 +8,6 @@ class Deck
 private:
 	list<Card> playerCards;
 	void OverHandShfl(int deviation, int fixedAmountTaken);
-	void FaroShfl();
 	void Cut(int deviation);
 	void Shuffle();
 public:

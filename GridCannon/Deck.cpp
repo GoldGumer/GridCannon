@@ -15,11 +15,6 @@ void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
 	}
 }
 
-void Deck::FaroShfl()
-{
-
-}
-
 void Deck::Cut(int deviation)
 {
 	list<Card>::iterator it = playerCards.begin();
@@ -29,10 +24,10 @@ void Deck::Cut(int deviation)
 
 void Deck::Shuffle()
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		srand((unsigned int)time(0));
-		OverHandShfl(5, 5);
+		OverHandShfl(9, 12);
 		Cut(9);
 	}
 }

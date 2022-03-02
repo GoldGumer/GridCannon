@@ -11,5 +11,5 @@ private:
 public:
 	Card(string faceValue);
 	string GetFaceValue();
-	void DisplayFaceValue(unsigned int line);
+	void DisplayFaceValue(int line);
 };

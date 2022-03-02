@@ -137,8 +137,9 @@ string Card::GetFaceValue()
 	return faceValue;
 }
 
-void Card::DisplayFaceValue(unsigned int line)
+void Card::DisplayFaceValue(int line)
 {
 	if (line > 8) line = 8;
+	else if (line < 0) line = 0;
 	cout << displayGraphics[line];
 }
