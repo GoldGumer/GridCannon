@@ -9,7 +9,10 @@ private:
 	Card currentCard;
 	Grid playerGrid;
 public:
+	Game();
 	void DisplayGrid();
 	void DisplayCard();
+	void PlaceCurrentCard(int coordinate[2]);
+	void PlaceRoyal(Card royal);
 };
 

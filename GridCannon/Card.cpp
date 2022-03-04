@@ -132,9 +132,13 @@ Card::Card(string faceValue)
 	displayGraphics[8] = "|____________|";
 }
 
-Card::Card()
+Card::Card() 
 {
-	Card("999");
+	faceValue = "999";
+	for (int cardLayer = 0; cardLayer < 9; cardLayer++)
+	{
+		displayGraphics[cardLayer] = "              ";
+	}
 }
 
 string Card::GetFaceValue()

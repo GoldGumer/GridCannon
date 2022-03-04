@@ -57,8 +57,9 @@ Deck::Deck()
 
 Card Deck::GetTopCard()
 {
-	return playerCards.front();
+	Card topCard = playerCards.front();
 	playerCards.pop_front();
+	return topCard;
 }
 
 void Deck::SetTopCard(Card cardToAdd)
