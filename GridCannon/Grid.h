@@ -6,6 +6,7 @@ class Grid
 private:
 	list<Card> playingField[3][3];
 	Card royals[4][3] = {Card()};
+	int* NearestRoyalToCard(int pos[2], bool returnClockwise);
 public:
 	void AddCard(Card cardToAdd, int coordinate[2]);
 	Card GetCard(int coordinate[2]);

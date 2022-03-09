@@ -55,7 +55,7 @@ Deck::Deck()
 			playerCards.push_front(Card(facevalue));
 		}
 	}
-	for (int i = 0; i < 2; i++) playerCards.push_back(Card("004"));
+	for (int i = 0; i < 2; i++) playerCards.push_back(Card("000"));
 	Shuffle();
 }
 

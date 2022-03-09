@@ -1,5 +1,71 @@
 #include "Grid.h"
 
+//private
+
+int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
+{
+	switch (pos[0])
+	{
+	case 0:
+		if (pos[1] == 1)
+		{
+			return new int[2]{ 0,1 };
+		}
+		else if (pos[1] == 0 && returnClockwise)
+		{
+			return new int[2]{ 0,0 };
+		}
+		else if(pos[1] == 2 && returnClockwise)
+		{
+			return new int[2]{ 1,0 };
+		}
+		else if (pos[1] == 0 && !returnClockwise)
+		{
+			return new int[2]{ 3,0 };
+		}
+		else if (pos[1] == 2 && !returnClockwise)
+		{
+			return new int[2]{ 0,2 };
+		}
+		break;
+	case 1:
+		if (pos[1] == 0)
+		{
+			return new int[2]{ 3,1 };
+		}
+		else if (pos[1] == 2)
+		{
+			return new int[2]{ 1,1 };
+		}
+		break;
+	case 2:
+		if (pos[1] == 1)
+		{
+			return new int[2]{ 2,1 };
+		}
+		else if (pos[1] == 0 && returnClockwise)
+		{
+			return new int[2]{ 3,2 };
+		}
+		else if(pos[1] == 2 && returnClockwise)
+		{
+			return new int[2]{ 2,2 };
+		}
+		else if (pos[1] == 0 && !returnClockwise)
+		{
+			return new int[2]{ 2,0 };
+		}
+		else if (pos[1] == 2 && !returnClockwise)
+		{
+			return new int[2]{ 1,2 };
+		}
+		break;
+	default:
+		break;
+	}
+	return new int[2]{ 0,0 };
+}
+
 //public
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
@@ -70,7 +136,7 @@ void Grid::Display()
 			else
 			{
 				//We display a card before and after the collumn to get the royals in
-				GetRoyal(new int[2]{ 3, 3 - row }).Display(cardLayer);
+				GetRoyal(new int[2]{ 3, row - 1 }).Display(cardLayer);
 				for (int collumn = 0; collumn < 3; collumn++)
 				{
 					GetCard(new int[2]{ row - 1,collumn }).Display(cardLayer);
@@ -84,54 +150,61 @@ void Grid::Display()
 
 void Grid::PlaceRoyal(Card royal)
 {
-	Card bestFitCard;
-	int position[2] = { 3 };
-	for (int row = 0; row < 3; row++)
+	int position[2] = { 0 };
+	bool positionFound = false;
+	while (!positionFound)
 	{
-		for (int collumn = 0; collumn < 3; collumn++)
+		for (int row = 0; row < 3; row++)
 		{
-			if (row != 1 || collumn != 1)
+			for (int collumn = 0; collumn < 3; collumn++)
 			{
-				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
-				if (royal.GetSuit() == cardBeingChecked.GetSuit())
+				if (row != 1 || collumn != 1)
 				{
-					if (bestFitCard.GetSuit() != cardBeingChecked.GetSuit())
+					Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
+					if (GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
 					{
-						bestFitCard = cardBeingChecked;
+						if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
+					}
+					else if (cardBeingChecked.GetSuit() == royal.GetSuit())
+					{
 						position[0] = row;
 						position[1] = collumn;
 					}
-					else if (bestFitCard.GetValue() < cardBeingChecked.GetValue())
+					else if ((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
 					{
-						bestFitCard = cardBeingChecked;
+						if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
+					}
+					else if ((GetCard(position).GetSuit() != royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
+					{
 						position[0] = row;
 						position[1] = collumn;
 					}
-				}
-				else if ((bestFitCard.GetSuit() != royal.GetSuit()) && (royal.GetSuit() - 2 == cardBeingChecked.GetSuit() || royal.GetSuit() + 2 == cardBeingChecked.GetSuit()))
-				{
-					if (bestFitCard.GetSuit() != cardBeingChecked.GetSuit())
+					else if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
 					{
-						bestFitCard = cardBeingChecked;
 						position[0] = row;
 						position[1] = collumn;
 					}
-					else if (bestFitCard.GetValue() < cardBeingChecked.GetValue())
-					{
-						bestFitCard = cardBeingChecked;
-						position[0] = row;
-						position[1] = collumn;
-					}
-				}
-				else if ((bestFitCard.GetSuit() != royal.GetSuit() || royal.GetSuit() - 2 != bestFitCard.GetSuit() || royal.GetSuit() + 2 != bestFitCard.GetSuit()) && (bestFitCard.GetValue() < cardBeingChecked.GetValue()) )
-				{
-					bestFitCard = cardBeingChecked;
-					position[0] = row;
-					position[1] = collumn;
 				}
 			}
 		}
+		if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == 00)
+		{
+			int* posRoyal = { NearestRoyalToCard(position, true) };
+			royals[posRoyal[0]][posRoyal[1]] = royal;
+		}
+		else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == 00)
+		{
+			int* posRoyal = { NearestRoyalToCard(position, false) };
+			royals[posRoyal[0]][posRoyal[1]] = royal;
+		}
+		positionFound = true;
 	}
-
-	
 }
