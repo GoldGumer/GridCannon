@@ -2,6 +2,8 @@
 #include "Card.h"
 using namespace std;
 
+//private
+
 void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
 {
 	list<Card>::iterator topIt = playerCards.begin();
@@ -32,9 +34,11 @@ void Deck::Shuffle()
 	}
 }
 
+//public
+
 Deck::Deck()
 {
-	for (int suit = 0; suit < 4; suit++)
+	for (int suit = 1; suit < 5; suit++)
 	{
 		for (int value = 1; value < 14; value++)
 		{

@@ -11,6 +11,7 @@ private:
 public:
 	Card();
 	Card(string faceValue);
-	string GetFaceValue();
-	void DisplayFaceValue(int line);
+	int GetSuit();
+	int GetValue();
+	void Display(int line);
 };

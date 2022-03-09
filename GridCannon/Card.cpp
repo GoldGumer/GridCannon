@@ -1,6 +1,8 @@
 #include "Card.h"
 using namespace std;
 
+//public
+
 Card::Card(string faceValue)
 {
 	this->faceValue = faceValue;
@@ -91,34 +93,34 @@ Card::Card(string faceValue)
 	//Suit display adding
 	switch (stoi(faceValue.substr(2, 1))) {
 	case 0:
+		displayGraphics[4] += "/    |";
+		displayGraphics[5] = "|   | / _    |";
+		displayGraphics[6] = "|   |< /_\\   |";
+		displayGraphics[7] = "|   | \\\\_    |";
+		break;
+	case 1:
 		displayGraphics[4] += "  ^  |";
 		displayGraphics[5] = "|        / \\ |";
 		displayGraphics[6] = "|        \\ / |";
 		displayGraphics[7] = "|         v  |";
 		break;
-	case 1:
+	case 2:
 		displayGraphics[4] += "  ^  |";
 		displayGraphics[5] = "|        / \\ |";
 		displayGraphics[6] = "|       (_ _)|";
 		displayGraphics[7] = "|         I  |";
 		break;
-	case 2:
+	case 3:
 		displayGraphics[4] += " _ _ |";
 		displayGraphics[5] = "|       ( V )|";
 		displayGraphics[6] = "|        \\ / |";
 		displayGraphics[7] = "|         v  |";
 		break;
-	case 3:
+	case 4:
 		displayGraphics[4] += "  _  |";
 		displayGraphics[5] = "|        ( ) |";
 		displayGraphics[6] = "|       (_ _)|";
 		displayGraphics[7] = "|         I  |";
-		break;
-	case 4:
-		displayGraphics[4] += "/    |";
-		displayGraphics[5] = "|   | / _    |";
-		displayGraphics[6] = "|   |< /_\\   |";
-		displayGraphics[7] = "|   | \\\\_    |";
 		break;
 	default:
 		displayGraphics[4] += "     |";
@@ -134,21 +136,26 @@ Card::Card(string faceValue)
 
 Card::Card() 
 {
-	faceValue = "999";
+	faceValue = "000";
 	for (int cardLayer = 0; cardLayer < 9; cardLayer++)
 	{
 		displayGraphics[cardLayer] = "              ";
 	}
 }
 
-string Card::GetFaceValue()
-{
-	return faceValue;
-}
-
-void Card::DisplayFaceValue(int line)
+void Card::Display(int line)
 {
 	if (line > 8) line = 8;
 	else if (line < 0) line = 0;
 	cout << displayGraphics[line];
+}
+
+int Card::GetSuit()
+{
+	return stoi(faceValue.substr(2, 1));
+}
+
+int Card::GetValue()
+{
+	return stoi(faceValue.substr(0, 2));
 }
