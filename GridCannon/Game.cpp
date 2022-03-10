@@ -27,10 +27,21 @@ void Game::PlaceCurrentCard(int coordinate[2])
 			currentCard = playerDeck.GetTopCard();
 		}
 	}
-	else
-	{
+}
 
+void Game::PlayerPlaceCard()
+{
+	int coordinate[2] = { 1 };
+	for (int i = 0; i < 2; i++)
+	{
+		int playerInput;
+		cin >> playerInput;
+		if (playerInput >= 0 && playerInput <= 2)
+		{
+			coordinate[i] = playerInput;
+		}
 	}
+	PlaceCurrentCard(coordinate);
 }
 
 //public
@@ -52,20 +63,18 @@ Game::Game()
 			}
 		}
 	}
-	cout << royalsFound.size() << endl;
 	while (!royalsFound.empty())
 	{
 		playerGrid.PlaceRoyal(royalsFound.back());
 		royalsFound.pop_back();
 	}
-	playerGrid.Display();
-	/*
-	system("CLS");
-
-	"evil way" https://www.cplusplus.com/articles/4z18T05o/
-
+	currentCard = playerDeck.GetTopCard();
 	while (playerDeck.GetLength() > 0 && currentCard.GetValue() != Card().GetValue())
 	{
-
-	}*/
+		playerGrid.Display();
+		DisplayCard();
+		PlayerPlaceCard();
+		system("CLS");
+		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
+	}
 }

@@ -164,7 +164,7 @@ void Grid::PlaceRoyal(Card royal)
 				{
 					for (int i = 0; i < 2; i++)
 					{
-						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
 						{
 							position[0] = row;
 							position[1] = collumn;
@@ -177,7 +177,7 @@ void Grid::PlaceRoyal(Card royal)
 					{
 						for (int i = 0; i < 2; i++)
 						{
-							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
 							{
 								position[0] = row;
 								position[1] = collumn;
@@ -191,7 +191,7 @@ void Grid::PlaceRoyal(Card royal)
 					{
 						for (int i = 0; i < 2; i++)
 						{
-							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
 							{
 								position[0] = row;
 								position[1] = collumn;
@@ -202,12 +202,12 @@ void Grid::PlaceRoyal(Card royal)
 			}
 		}
 	}
-	if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == 00)
+	if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == Card().GetValue())
 	{
 		int* posRoyal = { NearestRoyalToCard(position, true) };
 		royals[posRoyal[0]][posRoyal[1]] = royal;
 	}
-	else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == 00)
+	else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == Card().GetValue())
 	{
 		int* posRoyal = { NearestRoyalToCard(position, false) };
 		royals[posRoyal[0]][posRoyal[1]] = royal;

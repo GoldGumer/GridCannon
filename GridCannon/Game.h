@@ -10,6 +10,7 @@ private:
 	Grid playerGrid;
 	void DisplayCard();
 	void PlaceCurrentCard(int coordinate[2]);
+	void PlayerPlaceCard();
 public:
 	Game();
 };
