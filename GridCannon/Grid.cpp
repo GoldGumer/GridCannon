@@ -157,8 +157,10 @@ void Grid::PlaceRoyal(Card royal)
 		{
 			if (row != 1 || collumn != 1)
 			{
+				
 				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
-				if ((GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit()) && (cardBeingChecked.GetValue() > GetCard(position).GetValue()))
+
+				if (cardBeingChecked.GetSuit() == royal.GetSuit() && ((GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetValue() >= GetCard(position).GetValue()) || GetCard(position).GetSuit() != royal.GetSuit()))
 				{
 					for (int i = 0; i < 2; i++)
 					{
@@ -169,47 +171,31 @@ void Grid::PlaceRoyal(Card royal)
 						}
 					}
 				}
-				else if (cardBeingChecked.GetSuit() == royal.GetSuit())
+				else if ((cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()) && cardBeingChecked.GetValue() != 00)
 				{
-					for (int i = 0; i < 2; i++)
+					if ((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && cardBeingChecked.GetValue() > GetCard(position).GetValue() || GetCard(position).GetSuit() != royal.GetSuit())
 					{
-						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						for (int i = 0; i < 2; i++)
 						{
-							position[0] = row;
-							position[1] = collumn;
+							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+							{
+								position[0] = row;
+								position[1] = collumn;
+							}
 						}
 					}
 				}
-				else if (((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit())) && (cardBeingChecked.GetValue() > GetCard(position).GetValue()))
+				else if (GetCard(position).GetSuit() != royal.GetSuit())
 				{
-					for (int i = 0; i < 2; i++)
+					if ((GetCard(position).GetSuit() - 2 != royal.GetSuit() || GetCard(position).GetSuit() + 2 != royal.GetSuit()) && cardBeingChecked.GetValue() > GetCard(position).GetValue())
 					{
-						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						for (int i = 0; i < 2; i++)
 						{
-							position[0] = row;
-							position[1] = collumn;
-						}
-					}
-				}
-				else if ((GetCard(position).GetSuit() != royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
-				{
-					for (int i = 0; i < 2; i++)
-					{
-						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
-						{
-							position[0] = row;
-							position[1] = collumn;
-						}
-					}
-				}
-				else if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
-				{
-					for (int i = 0; i < 2; i++)
-					{
-						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
-						{
-							position[0] = row;
-							position[1] = collumn;
+							if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+							{
+								position[0] = row;
+								position[1] = collumn;
+							}
 						}
 					}
 				}
