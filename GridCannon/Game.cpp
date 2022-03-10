@@ -24,6 +24,7 @@ void Game::PlaceCurrentCard(int coordinate[2])
 		while (currentCard.GetValue() > 10)
 		{
 			playerGrid.PlaceRoyal(currentCard);
+			currentCard = playerDeck.GetTopCard();
 		}
 	}
 	else
@@ -51,6 +52,7 @@ Game::Game()
 			}
 		}
 	}
+	cout << royalsFound.size() << endl;
 	while (!royalsFound.empty())
 	{
 		playerGrid.PlaceRoyal(royalsFound.back());

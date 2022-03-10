@@ -151,60 +151,79 @@ void Grid::Display()
 void Grid::PlaceRoyal(Card royal)
 {
 	int position[2] = { 0 };
-	bool positionFound = false;
-	while (!positionFound)
+	for (int row = 0; row < 3; row++)
 	{
-		for (int row = 0; row < 3; row++)
+		for (int collumn = 0; collumn < 3; collumn++)
 		{
-			for (int collumn = 0; collumn < 3; collumn++)
+			if (row != 1 || collumn != 1)
 			{
-				if (row != 1 || collumn != 1)
+				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
+				if ((GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit()) && (cardBeingChecked.GetValue() > GetCard(position).GetValue()))
 				{
-					Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
-					if (GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
+					for (int i = 0; i < 2; i++)
 					{
-						if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
 						{
 							position[0] = row;
 							position[1] = collumn;
 						}
 					}
-					else if (cardBeingChecked.GetSuit() == royal.GetSuit())
+				}
+				else if (cardBeingChecked.GetSuit() == royal.GetSuit())
+				{
+					for (int i = 0; i < 2; i++)
 					{
-						position[0] = row;
-						position[1] = collumn;
-					}
-					else if ((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
-					{
-						if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
 						{
 							position[0] = row;
 							position[1] = collumn;
 						}
 					}
-					else if ((GetCard(position).GetSuit() != royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
+				}
+				else if (((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit())) && (cardBeingChecked.GetValue() > GetCard(position).GetValue()))
+				{
+					for (int i = 0; i < 2; i++)
 					{
-						position[0] = row;
-						position[1] = collumn;
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
 					}
-					else if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+				}
+				else if ((GetCard(position).GetSuit() != royal.GetSuit()) && (cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()))
+				{
+					for (int i = 0; i < 2; i++)
 					{
-						position[0] = row;
-						position[1] = collumn;
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
+					}
+				}
+				else if (cardBeingChecked.GetValue() > GetCard(position).GetValue())
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == 00)
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
 					}
 				}
 			}
 		}
-		if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == 00)
-		{
-			int* posRoyal = { NearestRoyalToCard(position, true) };
-			royals[posRoyal[0]][posRoyal[1]] = royal;
-		}
-		else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == 00)
-		{
-			int* posRoyal = { NearestRoyalToCard(position, false) };
-			royals[posRoyal[0]][posRoyal[1]] = royal;
-		}
-		positionFound = true;
+	}
+	if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == 00)
+	{
+		int* posRoyal = { NearestRoyalToCard(position, true) };
+		royals[posRoyal[0]][posRoyal[1]] = royal;
+	}
+	else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == 00)
+	{
+		int* posRoyal = { NearestRoyalToCard(position, false) };
+		royals[posRoyal[0]][posRoyal[1]] = royal;
 	}
 }
