@@ -134,9 +134,9 @@ Card::Card(string faceValue)
 	displayGraphics[8] = "|____________|";
 }
 
-Card::Card() 
+Card::Card()
 {
-	faceValue = "000";
+	faceValue = "-10";
 	for (int cardLayer = 0; cardLayer < 9; cardLayer++)
 	{
 		displayGraphics[cardLayer] = "              ";

@@ -15,7 +15,7 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 		{
 			return new int[2]{ 0,0 };
 		}
-		else if(pos[1] == 2 && returnClockwise)
+		else if (pos[1] == 2 && returnClockwise)
 		{
 			return new int[2]{ 1,0 };
 		}
@@ -47,7 +47,7 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 		{
 			return new int[2]{ 3,2 };
 		}
-		else if(pos[1] == 2 && returnClockwise)
+		else if (pos[1] == 2 && returnClockwise)
 		{
 			return new int[2]{ 2,2 };
 		}
@@ -66,6 +66,18 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 	return new int[2]{ 0,0 };
 }
 
+void Grid::DisplayPloys()
+{
+	for (int cardLayer = 0; cardLayer < 9; cardLayer++)
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			ploys[i].Display(cardLayer);
+		}
+		cout << endl;
+	}
+}
+
 //public
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
@@ -79,11 +91,11 @@ Card Grid::GetCard(int coordinate[2])
 	{
 		return Card();
 	}
-	else 
+	else
 	{
 		return playingField[coordinate[0]][coordinate[1]].front();
 	}
-	
+
 }
 
 /*
@@ -108,16 +120,59 @@ Card Grid::GetRoyal(int coordinate[2])
 	return royals[coordinate[0]][coordinate[1]];
 }
 
+void Grid::AddPloy(Card ployCard)
+{
+	switch (ployCard.GetSuit())
+	{
+	case 0:
+		if (ploys[4].GetValue() == 0)
+		{
+			ploys[5] = ployCard;
+		}
+		else
+		{
+			ploys[4] = ployCard;
+		}
+		break;
+	case 1:
+		ploys[0] = ployCard;
+		break;
+	case 2:
+		ploys[1] = ployCard;
+		break;
+	case 3:
+		ploys[2] = ployCard;
+		break;
+	case 4:
+		ploys[3] = ployCard;
+		break;
+	default:
+		break;
+	}
+}
+
+list<Card> Grid::PloyAce(int coordinate[2])
+{
+	list<Card> pile = playingField[coordinate[0]][coordinate[1]];
+	pile.reverse();
+
+	return pile;
+}
+
+void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
+{
+}
+
 void Grid::Display()
 {
 	//The grid is setup in a way where cards will be added from left to right on each row
 	//because of this we have to loop throught collumns first then rows
 	//We do 2 extra loops for row since we need one before and after the playerField is displayed to show royals
-	for (int row = 0; row < 5; row++)
+	for (int row = 0; row < 6; row++)
 	{
 		for (int cardLayer = 0; cardLayer < 9; cardLayer++)
 		{
-			if (row == 0 || row == 4) 
+			if (row == 0 || row == 4)
 			{
 				Card().Display(cardLayer);
 				for (int collumn = 0; collumn < 3; collumn++)
@@ -133,7 +188,7 @@ void Grid::Display()
 				}
 				Card().Display(cardLayer);
 			}
-			else
+			else if (row > 0 && row < 4)
 			{
 				//We display a card before and after the collumn to get the royals in
 				GetRoyal(new int[2]{ 3, row - 1 }).Display(cardLayer);
@@ -146,7 +201,10 @@ void Grid::Display()
 			cout << endl;
 		}
 	}
+	DisplayPloys();
 }
+
+
 
 void Grid::PlaceRoyal(Card royal)
 {
@@ -157,9 +215,9 @@ void Grid::PlaceRoyal(Card royal)
 		{
 			if (row != 1 || collumn != 1)
 			{
-				
-				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
 
+				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
+				//checks same suit
 				if (cardBeingChecked.GetSuit() == royal.GetSuit() && ((GetCard(position).GetSuit() == royal.GetSuit() && cardBeingChecked.GetValue() >= GetCard(position).GetValue()) || GetCard(position).GetSuit() != royal.GetSuit()))
 				{
 					for (int i = 0; i < 2; i++)
@@ -171,6 +229,7 @@ void Grid::PlaceRoyal(Card royal)
 						}
 					}
 				}
+				//checks same colour
 				else if ((cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit()) && cardBeingChecked.GetValue() != 00)
 				{
 					if ((GetCard(position).GetSuit() - 2 == royal.GetSuit() || GetCard(position).GetSuit() + 2 == royal.GetSuit()) && cardBeingChecked.GetValue() > GetCard(position).GetValue() || GetCard(position).GetSuit() != royal.GetSuit())
@@ -185,6 +244,7 @@ void Grid::PlaceRoyal(Card royal)
 						}
 					}
 				}
+				//if not either above checks if bigger number
 				else if (GetCard(position).GetSuit() != royal.GetSuit())
 				{
 					if ((GetCard(position).GetSuit() - 2 != royal.GetSuit() || GetCard(position).GetSuit() + 2 != royal.GetSuit()) && cardBeingChecked.GetValue() > GetCard(position).GetValue())
@@ -202,14 +262,15 @@ void Grid::PlaceRoyal(Card royal)
 			}
 		}
 	}
+	//royal is placed
 	if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == Card().GetValue())
 	{
 		int* posRoyal = { NearestRoyalToCard(position, true) };
-		royals[posRoyal[0]][posRoyal[1]] = royal;
+		AddRoyal(royal, posRoyal);
 	}
 	else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == Card().GetValue())
 	{
 		int* posRoyal = { NearestRoyalToCard(position, false) };
-		royals[posRoyal[0]][posRoyal[1]] = royal;
+		AddRoyal(royal, posRoyal);
 	}
 }

@@ -9,8 +9,8 @@ private:
 	Card currentCard;
 	Grid playerGrid;
 	void DisplayCard();
-	void PlaceCurrentCard(int coordinate[2]);
-	void PlayerPlaceCard();
+	void PlaceCard(int coordinate[2]);
+	void InputManager();
 public:
 	Game();
 };

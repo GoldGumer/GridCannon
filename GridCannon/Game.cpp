@@ -14,9 +14,8 @@ void Game::DisplayCard()
 	}
 }
 
-void Game::PlaceCurrentCard(int coordinate[2])
+void Game::PlaceCard(int coordinate[2])
 {
-	//if card being placed is more than the card ontop
 	if (currentCard.GetValue() >= playerGrid.GetCard(coordinate).GetValue())
 	{
 		playerGrid.AddCard(currentCard, coordinate);
@@ -29,19 +28,28 @@ void Game::PlaceCurrentCard(int coordinate[2])
 	}
 }
 
-void Game::PlayerPlaceCard()
+void Game::InputManager()
 {
-	int coordinate[2] = { 1 };
-	for (int i = 0; i < 2; i++)
+	string playerInput;
+	cin >> playerInput;
+	if (playerInput.find("card") != string::npos)
 	{
-		int playerInput;
+		string coord[2];
 		cin >> playerInput;
-		if (playerInput >= 0 && playerInput <= 2)
+
+		coord[0] = playerInput;
+	}
+	else if (playerInput.find("ploy") != string::npos)
+	{
+		if (playerInput.find("ace") != string::npos)
 		{
-			coordinate[i] = playerInput;
+			//playerGrid.ActivatePloy(true);
+		}
+		else if (playerInput.find("joker") != string::npos)
+		{
+			//playerGrid.ActivatePloy(false);
 		}
 	}
-	PlaceCurrentCard(coordinate);
 }
 
 //public
@@ -69,11 +77,12 @@ Game::Game()
 		royalsFound.pop_back();
 	}
 	currentCard = playerDeck.GetTopCard();
+
 	while (playerDeck.GetLength() > 0 && currentCard.GetValue() != Card().GetValue())
 	{
 		playerGrid.Display();
 		DisplayCard();
-		PlayerPlaceCard();
+		InputManager();
 		system("CLS");
 		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
 	}
