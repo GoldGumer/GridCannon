@@ -13,7 +13,7 @@ private:
 public:
 	Deck();
 	Card GetTopCard();
-	void SetTopCard(Card cardToAdd);
+	void PushBack(list<Card> pileToAdd);
 	Card LookAtTopCard();
 	int GetLength();
 };

@@ -66,18 +66,6 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 	return new int[2]{ 0,0 };
 }
 
-void Grid::DisplayPloys()
-{
-	for (int cardLayer = 0; cardLayer < 9; cardLayer++)
-	{
-		for (int i = 0; i < 6; i++)
-		{
-			ploys[i].Display(cardLayer);
-		}
-		cout << endl;
-	}
-}
-
 //public
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
@@ -124,14 +112,15 @@ void Grid::AddPloy(Card ployCard)
 {
 	switch (ployCard.GetSuit())
 	{
+	//checking if the suit is 0 since joker is the only card with suit 0
 	case 0:
-		if (ploys[4].GetValue() == 0)
+		if (ploys[4].GetValue() == Card().GetValue())
 		{
-			ploys[5] = ployCard;
+			ploys[4] = ployCard;
 		}
 		else
 		{
-			ploys[4] = ployCard;
+			ploys[5] = ployCard;
 		}
 		break;
 	case 1:
@@ -155,12 +144,30 @@ list<Card> Grid::PloyAce(int coordinate[2])
 {
 	list<Card> pile = playingField[coordinate[0]][coordinate[1]];
 	pile.reverse();
-
+	for (int i = 0; i < 4; i++)
+	{
+		if (ploys[i].GetValue() >= 0)
+		{
+			ploys[i] = Card("999");
+			break;
+		}
+	}
+	playingField[coordinate[0]][coordinate[1]].clear();
 	return pile;
 }
 
 void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 {
+	playingField[placeToMove[0]][placeToMove[1]].push_front(playingField[cardToMove[0]][cardToMove[1]].front());
+	playingField[cardToMove[0]][cardToMove[1]].pop_front();
+	for (int i = 0; i < 2; i++)
+	{
+		if (ploys[3 + i].GetValue() >= 0)
+		{
+			ploys[3 + i] = Card("999");
+			break;
+		}
+	}
 }
 
 void Grid::Display()
@@ -198,10 +205,16 @@ void Grid::Display()
 				}
 				GetRoyal(new int[2]{ 1, row - 1 }).Display(cardLayer);
 			}
+			else if (row == 5)
+			{
+				for (int i = 0; i < 6; i++)
+				{
+					ploys[i].Display(cardLayer);
+				}
+			}
 			cout << endl;
 		}
 	}
-	DisplayPloys();
 }
 
 

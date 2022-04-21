@@ -26,11 +26,11 @@ void Deck::Cut(int deviation)
 
 void Deck::Shuffle()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 25; i++)
 	{
-		srand((unsigned int)time(0));
-		OverHandShfl(9, 12);
-		Cut(9);
+		srand((unsigned int)time(0) + i);
+		OverHandShfl(19, 9);
+		Cut(10);
 	}
 }
 
@@ -61,18 +61,20 @@ Deck::Deck()
 
 Card Deck::GetTopCard()
 {
+	if (playerCards.size() <= 0) return Card();
 	Card topCard = playerCards.front();
 	playerCards.pop_front();
 	return topCard;
 }
 
-void Deck::SetTopCard(Card cardToAdd)
+void Deck::PushBack(list<Card> pileToAdd)
 {
-	playerCards.push_front(cardToAdd);
+	playerCards.splice(playerCards.end(), pileToAdd);
 }
 
 Card Deck::LookAtTopCard()
 {
+	if (playerCards.size() <= 0) return Card();
 	return playerCards.front();
 }
 

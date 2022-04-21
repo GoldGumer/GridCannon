@@ -2,6 +2,7 @@
 #include "Card.h"
 #include "Deck.h"
 #include "Grid.h"
+#include <fstream>
 class Game
 {
 private:
