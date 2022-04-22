@@ -36,10 +36,7 @@ void Game::PlaceCard(int coordinate[2])
 
 void Game::CannonActivation(int coordinate[2])
 {
-	if (coordinate[0])
-	{
-
-	}
+	if
 }
 
 void Game::InputManager()
@@ -143,10 +140,10 @@ Game::Game()
 
 	while (playerDeck.GetLength() > 0 && currentCard.GetValue() != Card().GetValue())
 	{
+		system("CLS");
+		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
 		playerGrid.Display();
 		DisplayCard();
 		InputManager();
-		system("CLS");
-		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
 	}
 }
