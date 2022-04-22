@@ -11,6 +11,7 @@ private:
 	Grid playerGrid;
 	void DisplayCard();
 	void PlaceCard(int coordinate[2]);
+	void CannonActivation(int coordinate[2]);
 	void InputManager();
 public:
 	Game();

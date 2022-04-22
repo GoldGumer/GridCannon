@@ -9,23 +9,23 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 	case 0:
 		if (pos[1] == 1)
 		{
-			return new int[2]{ 0,1 };
+			return new int[2]{ 3,1 };
 		}
 		else if (pos[1] == 0 && returnClockwise)
 		{
-			return new int[2]{ 0,0 };
+			return new int[2]{ 3,2 };
 		}
 		else if (pos[1] == 2 && returnClockwise)
 		{
-			return new int[2]{ 1,0 };
+			return new int[2]{ 0,0 };
 		}
 		else if (pos[1] == 0 && !returnClockwise)
 		{
-			return new int[2]{ 3,0 };
+			return new int[2]{ 2,0 };
 		}
 		else if (pos[1] == 2 && !returnClockwise)
 		{
-			return new int[2]{ 0,2 };
+			return new int[2]{ 3,0 };
 		}
 		break;
 	case 1:
@@ -41,11 +41,11 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 	case 2:
 		if (pos[1] == 1)
 		{
-			return new int[2]{ 2,1 };
+			return new int[2]{ 1,1 };
 		}
 		else if (pos[1] == 0 && returnClockwise)
 		{
-			return new int[2]{ 3,2 };
+			return new int[2]{ 1,0 };
 		}
 		else if (pos[1] == 2 && returnClockwise)
 		{
@@ -53,7 +53,7 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 		}
 		else if (pos[1] == 0 && !returnClockwise)
 		{
-			return new int[2]{ 2,0 };
+			return new int[2]{ 0,2 };
 		}
 		else if (pos[1] == 2 && !returnClockwise)
 		{
@@ -216,8 +216,6 @@ void Grid::Display()
 		}
 	}
 }
-
-
 
 void Grid::PlaceRoyal(Card royal)
 {

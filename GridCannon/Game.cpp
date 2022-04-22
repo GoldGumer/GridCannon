@@ -34,6 +34,14 @@ void Game::PlaceCard(int coordinate[2])
 	}
 }
 
+void Game::CannonActivation(int coordinate[2])
+{
+	if (coordinate[0])
+	{
+
+	}
+}
+
 void Game::InputManager()
 {
 	string playerInput;
