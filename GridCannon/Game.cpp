@@ -36,7 +36,93 @@ void Game::PlaceCard(int coordinate[2])
 
 void Game::CannonActivation(int coordinate[2])
 {
-	if
+	int royalValue;
+	switch (coordinate[0])
+	{
+	case 0:
+		switch (coordinate[1])
+		{
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+	//playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 2 }, true)).GetValue()
+
+	/*if (coordinate[0] == 0)
+	{
+		if (coordinate[1] == 0)
+		{
+			if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 2 }, true)).GetValue() != Card().GetValue())
+			{
+				if (playerGrid.GetCard(new int[2]{ 0, 1 }).GetValue() + playerGrid.GetCard(new int[2]{ 0, 2 }).GetValue() >= )
+				{
+
+				}
+			}
+			else if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 2, 0 }, false)).GetValue() != Card().GetValue())
+			{
+
+			}
+		}
+		if (coordinate[1] == 1 && playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 2, 1 })).GetValue() != Card().GetValue())
+		{
+
+		}
+		if (coordinate[1] == 2)
+		{
+			if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 0 }, false)).GetValue() != Card().GetValue())
+			{
+
+			}
+			else if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 2, 2 }, true)).GetValue() != Card().GetValue())
+			{
+
+			}
+		}
+	}
+	else if (coordinate[0] == 1)
+	{
+		if (coordinate[1] == 0 && playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 1, 2 })).GetValue() != Card().GetValue())
+		{
+
+		}
+		else if (coordinate[1] == 2 && playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 1, 0 })).GetValue() != Card().GetValue())
+		{
+
+		}
+	}
+	else if (coordinate[0] == 2)
+	{
+		if (coordinate[1] == 0)
+		{
+			if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 0 }, true)).GetValue() != Card().GetValue())
+			{
+
+			}
+			else if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 2, 2 }, false)).GetValue() != Card().GetValue())
+			{
+
+			}
+		}
+		if (coordinate[1] == 1 && playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 1 })).GetValue() != Card().GetValue())
+		{
+
+		}
+		if (coordinate[1] == 2)
+		{
+			if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 2, 0 }, true)).GetValue() != Card().GetValue())
+			{
+
+			}
+			else if (playerGrid.GetRoyal(playerGrid.NearestRoyalToCard(new int[2]{ 0, 2 }, false)).GetValue() != Card().GetValue())
+			{
+
+			}
+		}
+	}*/
 }
 
 void Game::InputManager()

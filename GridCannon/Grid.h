@@ -7,8 +7,8 @@ private:
 	list<Card> playingField[3][3];
 	Card royals[4][3] = { Card() };
 	Card ploys[6] = { Card() };
-	int* NearestRoyalToCard(int pos[2], bool returnClockwise);
 public:
+	int* NearestRoyalToCard(int pos[2], bool returnClockwise = true);
 	void AddCard(Card cardToAdd, int coordinate[2]);
 	Card GetCard(int coordinate[2]);
 	void AddRoyal(Card cardToAdd, int coordinate[2]);

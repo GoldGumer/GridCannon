@@ -1,8 +1,8 @@
 #include "Grid.h"
 
-//private
+//public
 
-int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
+int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise = true)
 {
 	switch (pos[0])
 	{
@@ -65,8 +65,6 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise)
 	}
 	return new int[2]{ 0,0 };
 }
-
-//public
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
 {
