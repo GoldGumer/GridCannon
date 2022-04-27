@@ -1,8 +1,8 @@
 #include "Grid.h"
 
-//public
+//private
 
-int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise = true)
+int* Grid::NearestRoyalToCard(int pos[2], bool returnVertical)
 {
 	switch (pos[0])
 	{
@@ -11,21 +11,21 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise = true)
 		{
 			return new int[2]{ 0,1 };
 		}
-		else if (pos[1] == 0 && returnClockwise)
+		else if (pos[1] == 0 && returnVertical)
 		{
 			return new int[2]{ 0,0 };
 		}
-		else if (pos[1] == 2 && returnClockwise)
-		{
-			return new int[2]{ 1,0 };
-		}
-		else if (pos[1] == 0 && !returnClockwise)
-		{
-			return new int[2]{ 3,0 };
-		}
-		else if (pos[1] == 2 && !returnClockwise)
+		else if (pos[1] == 2 && returnVertical)
 		{
 			return new int[2]{ 0,2 };
+		}
+		else if (pos[1] == 0 && !returnVertical)
+		{
+			return new int[2]{ 3,2 };
+		}
+		else if (pos[1] == 2 && !returnVertical)
+		{
+			return new int[2]{ 1,0 };
 		}
 		break;
 	case 1:
@@ -43,19 +43,19 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise = true)
 		{
 			return new int[2]{ 2,1 };
 		}
-		else if (pos[1] == 0 && returnClockwise)
-		{
-			return new int[2]{ 3,2 };
-		}
-		else if (pos[1] == 2 && returnClockwise)
+		else if (pos[1] == 0 && returnVertical)
 		{
 			return new int[2]{ 2,2 };
 		}
-		else if (pos[1] == 0 && !returnClockwise)
+		else if (pos[1] == 2 && returnVertical)
 		{
 			return new int[2]{ 2,0 };
 		}
-		else if (pos[1] == 2 && !returnClockwise)
+		else if (pos[1] == 0 && !returnVertical)
+		{
+			return new int[2]{ 3,0 };
+		}
+		else if (pos[1] == 2 && !returnVertical)
 		{
 			return new int[2]{ 1,2 };
 		}
@@ -64,6 +64,155 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnClockwise = true)
 		break;
 	}
 	return new int[2]{ 0,0 };
+}
+
+//public
+
+void Grid::CannonActivation(int coordinate[2])
+{
+	/*
+	Write down each direction to check then add and take away from "coordinate"
+	North  =   0
+	East   =   1
+	South  =   2
+	West   =   3
+	*/
+	list<int> directionsToCheck;
+	switch (coordinate[0])
+	{
+	case 0:
+		switch (coordinate[1])
+		{
+		case 0:
+			directionsToCheck.push_back(1);
+			directionsToCheck.push_back(2);
+			break;
+		case 1:
+			directionsToCheck.push_back(2);
+			break;
+		case 2:
+			directionsToCheck.push_back(2);
+			directionsToCheck.push_back(3);
+			break;
+		default:
+			break;
+		}
+		break;
+	case 1:
+		switch (coordinate[1])
+		{
+		case 0:
+			directionsToCheck.push_back(1);
+			break;
+		case 2:
+			directionsToCheck.push_back(3);
+			break;
+		default:
+			break;
+		}
+		break;
+	case 2:
+		switch (coordinate[1])
+		{
+		case 0:
+			directionsToCheck.push_back(0);
+			directionsToCheck.push_back(1);
+			break;
+		case 1:
+			directionsToCheck.push_back(0);
+			break;
+		case 2:
+			directionsToCheck.push_back(0);
+			directionsToCheck.push_back(3);
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+	while (directionsToCheck.empty())
+	{
+		switch (directionsToCheck.front())
+		{
+		case 0:
+			if (coordinate[1] / 2 == 1 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0] + 2, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] + 1, coordinate[1] }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false));
+			}
+			else if (coordinate[1] / 2 == 0 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0] + 2, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] + 1, coordinate[1] }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true));
+			}
+			break;
+		case 1:
+			if (coordinate[0] / 2 == 1 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0], coordinate[1] + 2 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] } + 1).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false));
+			}
+			else if (coordinate[0] / 2 == 0 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0], coordinate[1] + 2 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] } + 1).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true));
+			}
+			break;
+		case 2:
+			if (coordinate[1] / 2 == 0 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] - 1, coordinate[1] }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true));
+			}
+			else if (coordinate[1] / 2 == 1 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] - 1, coordinate[1] }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false));
+			}
+			break;
+		case 3:
+			if (coordinate[0] / 2 == 0 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0], coordinate[1] - 2 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] - 1 }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, true));
+			}
+			else if (coordinate[0] / 2 == 1 &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false)).GetValue() == Card().GetValue() &&
+				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false)).GetValue() <=
+				(GetCard(new int[2]{ coordinate[0], coordinate[1] - 2 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] - 1 }).GetValue()))
+			{
+				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false));
+			}
+			break;
+		default:
+			break;
+		}
+		directionsToCheck.pop_front();
+	}
 }
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
@@ -92,8 +241,13 @@ order of North, East, South, West
 being rows 0, 1 ,2 ,3
 */
 
-void Grid::AddRoyal(Card cardToAdd, int coordinate[2])
+void Grid::SetRoyal(Card cardToAdd, int coordinate[2])
 {
+	if (coordinate[0] > 3) coordinate[0] = 3;
+	else if (coordinate[0] < 0) coordinate[0] = 0;
+	if (coordinate[1] > 2) coordinate[0] = 2;
+	else if (coordinate[1] < 0) coordinate[0] = 0;
+
 	royals[coordinate[0]][coordinate[1]] = cardToAdd;
 }
 
@@ -182,21 +336,14 @@ void Grid::Display()
 				Card().Display(cardLayer);
 				for (int collumn = 0; collumn < 3; collumn++)
 				{
-					if (row == 0)
-					{
-						GetRoyal(new int[2]{ 0, collumn }).Display(cardLayer);
-					}
-					else
-					{
-						GetRoyal(new int[2]{ 2, collumn }).Display(cardLayer);
-					}
+					GetRoyal(new int[2]{ row / 2, row / 2 - collumn }).Display(cardLayer);
 				}
 				Card().Display(cardLayer);
 			}
 			else if (row > 0 && row < 4)
 			{
 				//We display a card before and after the collumn to get the royals in
-				GetRoyal(new int[2]{ 3, row - 1 }).Display(cardLayer);
+				GetRoyal(new int[2]{ 3, 3 - row }).Display(cardLayer);
 				for (int collumn = 0; collumn < 3; collumn++)
 				{
 					GetCard(new int[2]{ row - 1,collumn }).Display(cardLayer);
@@ -215,7 +362,7 @@ void Grid::Display()
 	}
 }
 
-void Grid::PlaceRoyal(Card royal)
+void Grid::AddRoyal(Card royal)
 {
 	int position[2] = { 0 };
 	for (int row = 0; row < 3; row++)
@@ -249,60 +396,16 @@ void Grid::PlaceRoyal(Card royal)
 						}
 					}
 				}
-				////checks same suit
-				//if (cardBeingChecked.GetSuit() == royal.GetSuit() && ((GetCard(position).GetSuit() == royal.GetSuit()
-				//	&& cardBeingChecked.GetValue() >= GetCard(position).GetValue()) || GetCard(position).GetSuit() != royal.GetSuit()))
-				//{
-				//	for (int i = 0; i < 2; i++)
-				//	{
-				//		if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
-				//		{
-				//			position[0] = row;
-				//			position[1] = collumn;
-				//		}
-				//	}
-				//}
-				////checks same colour
-				//else if ((cardBeingChecked.GetSuit() - 2 == royal.GetSuit() || cardBeingChecked.GetSuit() + 2 == royal.GetSuit())
-				//	&& cardBeingChecked.GetValue() != 00 && cardBeingChecked.GetValue() > GetCard(position).GetValue() && GetCard(position).GetSuit() != royal.GetSuit())
-				//{
-				//	for (int i = 0; i < 2; i++)
-				//	{
-				//		if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
-				//		{
-				//			position[0] = row;
-				//			position[1] = collumn;
-				//		}
-				//	}
-				//}
-				////if not either above checks if bigger number
-				//else if (GetCard(position).GetSuit() != royal.GetSuit())
-				//{
-				//	if ((GetCard(position).GetSuit() - 2 != royal.GetSuit() || GetCard(position).GetSuit() + 2 != royal.GetSuit())
-				//		&& cardBeingChecked.GetValue() > GetCard(position).GetValue())
-				//	{
-				//		for (int i = 0; i < 2; i++)
-				//		{
-				//			if (GetRoyal(NearestRoyalToCard(new int[2]{ row,collumn }, i)).GetValue() == Card().GetValue())
-				//			{
-				//				position[0] = row;
-				//				position[1] = collumn;
-				//			}
-				//		}
-				//	}
-				//}
 			}
 		}
 	}
 	//royal is placed
-	if (GetRoyal(NearestRoyalToCard(position, true)).GetValue() == Card().GetValue())
+	for (int i = 0; i < 2; i++)
 	{
-		int* posRoyal = { NearestRoyalToCard(position, true) };
-		AddRoyal(royal, posRoyal);
-	}
-	else if (GetRoyal(NearestRoyalToCard(position, false)).GetValue() == Card().GetValue())
-	{
-		int* posRoyal = { NearestRoyalToCard(position, false) };
-		AddRoyal(royal, posRoyal);
+		if (GetRoyal(NearestRoyalToCard(position, i)).GetValue() == Card().GetValue())
+		{
+			int* posRoyal = { NearestRoyalToCard(position, i) };
+			SetRoyal(royal, posRoyal);
+		}
 	}
 }
