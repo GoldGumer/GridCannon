@@ -8,7 +8,7 @@ void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
 {
 	list<Card>::iterator topIt = playerCards.begin();
 	list<Card>::iterator botIt = playerCards.end();
-	while (distance(topIt, botIt) >= fixedAmountTaken + deviation - 1)
+	while (distance(topIt, botIt) >= fixedAmountTaken + deviation)
 	{
 		int randInt = rand() % deviation + fixedAmountTaken;
 		advance(topIt, randInt);

@@ -91,6 +91,13 @@ Card::Card(string faceValue)
 	}
 
 	//Suit display adding
+	/*
+	0 = Joker
+	1 = Diamonds
+	2 = Spades
+	3 = Hearts
+	4 = Clubs
+	*/
 	switch (stoi(faceValue.substr(2, 1))) {
 	case 0:
 		displayGraphics[4] += "/    |";

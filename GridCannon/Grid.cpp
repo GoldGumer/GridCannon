@@ -132,80 +132,48 @@ void Grid::CannonActivation(int coordinate[2])
 	default:
 		break;
 	}
-	while (directionsToCheck.empty())
+	while (!directionsToCheck.empty())
 	{
 		switch (directionsToCheck.front())
 		{
 		case 0:
-			if (coordinate[1] / 2 == 1 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0] + 2, coordinate[1] }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0] + 1, coordinate[1] }).GetValue()))
+			if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() != Card().GetValue())
 			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false));
-			}
-			else if (coordinate[1] / 2 == 0 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0] + 2, coordinate[1] }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0] + 1, coordinate[1] }).GetValue()))
-			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, true));
+				if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() <= GetCard(new int[2]{ coordinate[0], coordinate[1] + 1 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] + 2 }).GetValue())
+				{
+					SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true));
+				}
 			}
 			break;
 		case 1:
-			if (coordinate[0] / 2 == 1 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0], coordinate[1] + 2 }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0], coordinate[1] } + 1).GetValue()))
+			if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() != Card().GetValue())
 			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false));
-			}
-			else if (coordinate[0] / 2 == 0 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0], coordinate[1] + 2 }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0], coordinate[1] } + 1).GetValue()))
-			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true));
+				if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] + 2, coordinate[1] }, false)).GetValue() <= GetCard(new int[2]{ coordinate[0] + 1, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] + 2, coordinate[1] }).GetValue())
+				{
+					SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, false));
+				}
 			}
 			break;
 		case 2:
-			if (coordinate[1] / 2 == 0 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0] - 1, coordinate[1] }).GetValue()))
+			if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, true)).GetValue() != Card().GetValue())
 			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, true));
-			}
-			else if (coordinate[1] / 2 == 1 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0] - 1, coordinate[1] }).GetValue()))
-			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false));
+				if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, true)).GetValue() <= GetCard(new int[2]{ coordinate[0], coordinate[1] - 1 }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0], coordinate[1] - 2 }).GetValue())
+				{
+					SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, true));
+				}
 			}
 			break;
 		case 3:
-			if (coordinate[0] / 2 == 0 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] + 2 }, true)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0], coordinate[1] - 2 }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0], coordinate[1] - 1 }).GetValue()))
+			if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() != Card().GetValue())
 			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, true));
-			}
-			else if (coordinate[0] / 2 == 1 &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false)).GetValue() == Card().GetValue() &&
-				GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false)).GetValue() <=
-				(GetCard(new int[2]{ coordinate[0], coordinate[1] - 2 }).GetValue()
-					+ GetCard(new int[2]{ coordinate[0], coordinate[1] - 1 }).GetValue()))
-			{
-				SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0], coordinate[1] - 2 }, false));
+				if (GetRoyal(NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false)).GetValue() <= GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue()
+					+ GetCard(new int[2]{ coordinate[0] - 2, coordinate[1] }).GetValue())
+				{
+					SetRoyal(Card("999"), NearestRoyalToCard(new int[2]{ coordinate[0] - 2, coordinate[1] }, false));
+				}
 			}
 			break;
 		default:
@@ -245,8 +213,8 @@ void Grid::SetRoyal(Card cardToAdd, int coordinate[2])
 {
 	if (coordinate[0] > 3) coordinate[0] = 3;
 	else if (coordinate[0] < 0) coordinate[0] = 0;
-	if (coordinate[1] > 2) coordinate[0] = 2;
-	else if (coordinate[1] < 0) coordinate[0] = 0;
+	if (coordinate[1] > 2) coordinate[1] = 2;
+	else if (coordinate[1] < 0) coordinate[1] = 0;
 
 	royals[coordinate[0]][coordinate[1]] = cardToAdd;
 }
@@ -336,7 +304,7 @@ void Grid::Display()
 				Card().Display(cardLayer);
 				for (int collumn = 0; collumn < 3; collumn++)
 				{
-					GetRoyal(new int[2]{ row / 2, row / 2 - collumn }).Display(cardLayer);
+					GetRoyal(new int[2]{ row / 2, abs(row / 2 - collumn) }).Display(cardLayer);
 				}
 				Card().Display(cardLayer);
 			}
@@ -378,12 +346,12 @@ void Grid::AddRoyal(Card royal)
 					{
 						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2)
 						{
-							if (cardBeingChecked.GetSuit() == royal.GetSuit() && cardBeingChecked.GetValue() > GetCard(position).GetValue())
+							if (GetCard(position).GetSuit() != royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
 							{
 								position[0] = row;
 								position[1] = collumn;
 							}
-							else if (GetCard(position).GetSuit() != royal.GetSuit() && cardBeingChecked.GetValue() > GetCard(position).GetValue())
+							else if (GetCard(position).GetSuit() == cardBeingChecked.GetSuit() && cardBeingChecked.GetValue() > GetCard(position).GetValue())
 							{
 								position[0] = row;
 								position[1] = collumn;
@@ -406,6 +374,7 @@ void Grid::AddRoyal(Card royal)
 		{
 			int* posRoyal = { NearestRoyalToCard(position, i) };
 			SetRoyal(royal, posRoyal);
+			break;
 		}
 	}
 }
