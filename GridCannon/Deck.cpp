@@ -40,7 +40,7 @@ Deck::Deck()
 {
 	for (int suit = 1; suit < 5; suit++)
 	{
-		for (int value = 1; value < 14; value++)
+		for (int value = 9; value < 14; value++)
 		{
 			string facevalue = "999";
 			if (value < 10)

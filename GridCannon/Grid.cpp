@@ -143,7 +143,10 @@ Card Grid::GetRoyal(int coordinate[2])
 	else if (coordinate[0] > 3) coordinate[0] = 3;
 	if (coordinate[1] < 0)coordinate[1] = 0;
 	else if (coordinate[1] > 2)coordinate[1] = 2;
-	return royals[coordinate[0]][coordinate[1]];
+	Card royalToReturn = royals[coordinate[0]][coordinate[1]];
+	delete[] coordinate;
+	coordinate = NULL;
+	return royalToReturn;
 }
 
 void Grid::AddPloy(Card ployCard)
@@ -252,7 +255,7 @@ void Grid::Display()
 
 void Grid::AddRoyal(Card royal)
 {
-	int position[2] = { 0 };
+	int position[2] = { 1 };
 	for (int row = 0; row < 3; row++)
 	{
 		for (int collumn = 0; collumn < 3; collumn++)
@@ -264,7 +267,7 @@ void Grid::AddRoyal(Card royal)
 				{
 					if (GetRoyal(NearestRoyalToCard(new int[2]{ row, collumn }, i)).GetValue() == Card().GetValue())
 					{
-						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != 0)
+						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != Card().GetSuit())
 						{
 							if (GetCard(position).GetSuit() != royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
 							{
@@ -277,7 +280,12 @@ void Grid::AddRoyal(Card royal)
 								position[1] = collumn;
 							}
 						}
-						else if (cardBeingChecked.GetValue() > GetCard(position).GetValue() && GetCard(position).GetSuit() % 2 != royal.GetSuit() % 2)
+						else if (cardBeingChecked.GetValue() >= GetCard(position).GetValue() && GetCard(position).GetSuit() % 2 != royal.GetSuit() % 2)
+						{
+							position[0] = row;
+							position[1] = collumn;
+						}
+						else if (position[0] == 1 && position[1] == 1)
 						{
 							position[0] = row;
 							position[1] = collumn;
