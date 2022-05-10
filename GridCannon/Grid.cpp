@@ -108,15 +108,11 @@ void Grid::CannonActivation(int coordinate[2])
 			SetRoyal(Card("999"), royalPositionToCheck);
 		}
 	}
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 }
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
 {
 	playingField[coordinate[0]][coordinate[1]].push_front(cardToAdd);
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 }
 
 Card Grid::GetCard(int coordinate[2])
@@ -130,8 +126,6 @@ Card Grid::GetCard(int coordinate[2])
 	{
 		cardToReturn = playingField[coordinate[0]][coordinate[1]].front();
 	}
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 
 	return cardToReturn;
 }
@@ -152,9 +146,6 @@ void Grid::SetRoyal(Card cardToAdd, int coordinate[2])
 	else if (coordinate[1] < 0) coordinate[1] = 0;
 
 	royals[coordinate[0]][coordinate[1]] = cardToAdd;
-
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 }
 
 Card Grid::GetRoyal(int coordinate[2])
@@ -165,9 +156,6 @@ Card Grid::GetRoyal(int coordinate[2])
 	else if (coordinate[1] > 2)coordinate[1] = 2;
 
 	Card royalToReturn = royals[coordinate[0]][coordinate[1]];
-
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 
 	return royalToReturn;
 }
@@ -221,8 +209,6 @@ list<Card> Grid::PloyAce(int coordinate[2])
 			break;
 		}
 	}
-	/*delete[] coordinate;
-	coordinate = NULL;*/
 	return pile;
 }
 
@@ -239,11 +225,6 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 			break;
 		}
 	}
-	/*delete[] cardToMove;
-	cardToMove = NULL;*/
-
-	/*delete[] placeToMove;
-	placeToMove = NULL;*/
 }
 
 void Grid::Display()
