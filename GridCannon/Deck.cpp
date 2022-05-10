@@ -83,7 +83,7 @@ Card Deck::LookAtTopCard()
 Card Deck::GetTopCard()
 {
 	Card topCard = LookAtTopCard();
-	playerCards.pop_front();
+	if (GetLength() > 0) playerCards.pop_front();
 	return topCard;
 }
 

@@ -291,6 +291,11 @@ void Grid::AddRoyal(Card royal)
 								position[0] = row;
 								position[1] = collumn;
 							}
+							else if (GetCard(position).GetSuit() % 2 != royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != royal.GetSuit())
+							{
+								position[0] = row;
+								position[1] = collumn;
+							}
 							else if (GetCard(position).GetSuit() == cardBeingChecked.GetSuit() && cardBeingChecked.GetValue() > GetCard(position).GetValue())
 							{
 								position[0] = row;

@@ -118,9 +118,15 @@ Game::Game()
 
 	while (!royalsFound.empty())
 	{
+		cout << royalsFound.back().GetValue() << royalsFound.back().GetSuit() << endl;
 		playerGrid.AddRoyal(royalsFound.back());
 		royalsFound.pop_back();
+
+		playerGrid.Display();
+		DisplayCard();
 	}
+
+	currentCard = playerDeck.GetTopCard();
 
 	while (currentCard.GetValue() > 10 || (currentCard.GetValue() < 2 && currentCard.GetValue() >= 0))
 	{
