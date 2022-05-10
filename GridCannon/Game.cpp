@@ -34,8 +34,8 @@ void Game::PlaceCard(int coordinate[2])
 		}
 		currentCard = playerDeck.GetTopCard();
 	}
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 }
 
 void Game::InputManager()
@@ -142,12 +142,10 @@ Game::Game()
 
 	while (playerDeck.GetLength() > 0 && currentCard.GetValue() != Card().GetValue())
 	{
-		system("CLS");
+		//system("CLS");
 		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
 		playerGrid.Display();
 		DisplayCard();
 		InputManager();
 	}
-	playerGrid.Display();
-	DisplayCard();
 }

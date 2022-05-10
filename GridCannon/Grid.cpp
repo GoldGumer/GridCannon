@@ -4,83 +4,66 @@
 
 int* Grid::NearestRoyalToCard(int pos[2], bool returnVertical)
 {
-	int intToReturn[2] = { 0,0 };
 	switch (pos[0])
 	{
 	case 0:
 		if (pos[1] == 1)
 		{
-			intToReturn[0] = 0;
-			intToReturn[1] = 1;
+			return new int[2]{ 0,1 };
 		}
 		else if (pos[1] == 0 && returnVertical)
 		{
-			intToReturn[0] = 0;
-			intToReturn[1] = 0;
+			return new int[2]{ 0,0 };
 		}
 		else if (pos[1] == 2 && returnVertical)
 		{
-			intToReturn[0] = 0;
-			intToReturn[1] = 2;
+			return new int[2]{ 0,2 };
 		}
 		else if (pos[1] == 0 && !returnVertical)
 		{
-			intToReturn[0] = 3;
-			intToReturn[1] = 2;
+			return new int[2]{ 3,2 };
 		}
 		else if (pos[1] == 2 && !returnVertical)
 		{
-			intToReturn[0] = 1;
-			intToReturn[1] = 0;
+			return new int[2]{ 1,0 };
 		}
 		break;
 	case 1:
 		if (pos[1] == 0)
 		{
-			intToReturn[0] = 3;
-			intToReturn[1] = 1;
+			return new int[2]{ 3,1 };
 		}
 		else if (pos[1] == 2)
 		{
-			intToReturn[0] = 1;
-			intToReturn[1] = 1;
+			return new int[2]{ 1,1 };
 		}
 		break;
 	case 2:
 		if (pos[1] == 1)
 		{
-			intToReturn[0] = 2;
-			intToReturn[1] = 1;
+			return new int[2]{ 2,1 };
 		}
 		else if (pos[1] == 0 && returnVertical)
 		{
-			intToReturn[0] = 2;
-			intToReturn[1] = 2;
+			return new int[2]{ 2,2 };
 		}
 		else if (pos[1] == 2 && returnVertical)
 		{
-			intToReturn[0] = 2;
-			intToReturn[1] = 0;
+			return new int[2]{ 2,0 };
 		}
 		else if (pos[1] == 0 && !returnVertical)
 		{
-			intToReturn[0] = 3;
-			intToReturn[1] = 0;
+			return new int[2]{ 3,0 };
 		}
 		else if (pos[1] == 2 && !returnVertical)
 		{
-			intToReturn[0] = 1;
-			intToReturn[1] = 2;
+			return new int[2]{ 1,2 };
 		}
 		break;
 	default:
 		break;
 	}
-
-	delete[] pos;
-	pos = NULL;
-
-	return intToReturn;
+	return new int[2]{ 0,0 };
 }
 
 //public
@@ -125,15 +108,15 @@ void Grid::CannonActivation(int coordinate[2])
 			SetRoyal(Card("999"), royalPositionToCheck);
 		}
 	}
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 }
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
 {
 	playingField[coordinate[0]][coordinate[1]].push_front(cardToAdd);
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 }
 
 Card Grid::GetCard(int coordinate[2])
@@ -147,8 +130,8 @@ Card Grid::GetCard(int coordinate[2])
 	{
 		cardToReturn = playingField[coordinate[0]][coordinate[1]].front();
 	}
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 
 	return cardToReturn;
 }
@@ -170,8 +153,8 @@ void Grid::SetRoyal(Card cardToAdd, int coordinate[2])
 
 	royals[coordinate[0]][coordinate[1]] = cardToAdd;
 
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 }
 
 Card Grid::GetRoyal(int coordinate[2])
@@ -183,8 +166,8 @@ Card Grid::GetRoyal(int coordinate[2])
 
 	Card royalToReturn = royals[coordinate[0]][coordinate[1]];
 
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 
 	return royalToReturn;
 }
@@ -238,8 +221,8 @@ list<Card> Grid::PloyAce(int coordinate[2])
 			break;
 		}
 	}
-	delete[] coordinate;
-	coordinate = NULL;
+	/*delete[] coordinate;
+	coordinate = NULL;*/
 	return pile;
 }
 
@@ -256,11 +239,11 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 			break;
 		}
 	}
-	delete[] cardToMove;
-	cardToMove = NULL;
+	/*delete[] cardToMove;
+	cardToMove = NULL;*/
 
-	delete[] placeToMove;
-	placeToMove = NULL;
+	/*delete[] placeToMove;
+	placeToMove = NULL;*/
 }
 
 void Grid::Display()
