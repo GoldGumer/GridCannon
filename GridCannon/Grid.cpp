@@ -4,66 +4,83 @@
 
 int* Grid::NearestRoyalToCard(int pos[2], bool returnVertical)
 {
+	int intToReturn[2] = { 0,0 };
 	switch (pos[0])
 	{
 	case 0:
 		if (pos[1] == 1)
 		{
-			return new int[2]{ 0,1 };
+			intToReturn[0] = 0;
+			intToReturn[1] = 1;
 		}
 		else if (pos[1] == 0 && returnVertical)
 		{
-			return new int[2]{ 0,0 };
+			intToReturn[0] = 0;
+			intToReturn[1] = 0;
 		}
 		else if (pos[1] == 2 && returnVertical)
 		{
-			return new int[2]{ 0,2 };
+			intToReturn[0] = 0;
+			intToReturn[1] = 2;
 		}
 		else if (pos[1] == 0 && !returnVertical)
 		{
-			return new int[2]{ 3,2 };
+			intToReturn[0] = 3;
+			intToReturn[1] = 2;
 		}
 		else if (pos[1] == 2 && !returnVertical)
 		{
-			return new int[2]{ 1,0 };
+			intToReturn[0] = 1;
+			intToReturn[1] = 0;
 		}
 		break;
 	case 1:
 		if (pos[1] == 0)
 		{
-			return new int[2]{ 3,1 };
+			intToReturn[0] = 3;
+			intToReturn[1] = 1;
 		}
 		else if (pos[1] == 2)
 		{
-			return new int[2]{ 1,1 };
+			intToReturn[0] = 1;
+			intToReturn[1] = 1;
 		}
 		break;
 	case 2:
 		if (pos[1] == 1)
 		{
-			return new int[2]{ 2,1 };
+			intToReturn[0] = 2;
+			intToReturn[1] = 1;
 		}
 		else if (pos[1] == 0 && returnVertical)
 		{
-			return new int[2]{ 2,2 };
+			intToReturn[0] = 2;
+			intToReturn[1] = 2;
 		}
 		else if (pos[1] == 2 && returnVertical)
 		{
-			return new int[2]{ 2,0 };
+			intToReturn[0] = 2;
+			intToReturn[1] = 0;
 		}
 		else if (pos[1] == 0 && !returnVertical)
 		{
-			return new int[2]{ 3,0 };
+			intToReturn[0] = 3;
+			intToReturn[1] = 0;
 		}
 		else if (pos[1] == 2 && !returnVertical)
 		{
-			return new int[2]{ 1,2 };
+			intToReturn[0] = 1;
+			intToReturn[1] = 2;
 		}
 		break;
 	default:
 		break;
 	}
-	return new int[2]{ 0,0 };
+
+	delete[] pos;
+	pos = NULL;
+
+	return intToReturn;
 }
 
 //public
@@ -108,24 +125,32 @@ void Grid::CannonActivation(int coordinate[2])
 			SetRoyal(Card("999"), royalPositionToCheck);
 		}
 	}
+	delete[] coordinate;
+	coordinate = NULL;
 }
 
 void Grid::AddCard(Card cardToAdd, int coordinate[2])
 {
 	playingField[coordinate[0]][coordinate[1]].push_front(cardToAdd);
+	delete[] coordinate;
+	coordinate = NULL;
 }
 
 Card Grid::GetCard(int coordinate[2])
 {
+	Card cardToReturn;
 	if (playingField[coordinate[0]][coordinate[1]].empty())
 	{
-		return Card();
+		cardToReturn = Card();
 	}
 	else
 	{
-		return playingField[coordinate[0]][coordinate[1]].front();
+		cardToReturn = playingField[coordinate[0]][coordinate[1]].front();
 	}
+	delete[] coordinate;
+	coordinate = NULL;
 
+	return cardToReturn;
 }
 
 /*
@@ -144,6 +169,9 @@ void Grid::SetRoyal(Card cardToAdd, int coordinate[2])
 	else if (coordinate[1] < 0) coordinate[1] = 0;
 
 	royals[coordinate[0]][coordinate[1]] = cardToAdd;
+
+	delete[] coordinate;
+	coordinate = NULL;
 }
 
 Card Grid::GetRoyal(int coordinate[2])
@@ -210,6 +238,8 @@ list<Card> Grid::PloyAce(int coordinate[2])
 			break;
 		}
 	}
+	delete[] coordinate;
+	coordinate = NULL;
 	return pile;
 }
 
@@ -226,6 +256,11 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 			break;
 		}
 	}
+	delete[] cardToMove;
+	cardToMove = NULL;
+
+	delete[] placeToMove;
+	placeToMove = NULL;
 }
 
 void Grid::Display()
@@ -272,45 +307,53 @@ void Grid::Display()
 //Automatic royal adding
 void Grid::AddRoyal(Card royal)
 {
-	int position[2] = { 1 };
+	int finalPosition[2] = { 1,1 };
 	for (int row = 0; row < 3; row++)
 	{
 		for (int collumn = 0; collumn < 3; collumn++)
 		{
 			if (row != 1 || collumn != 1)
 			{
-				Card cardBeingChecked = GetCard(new int[2]{ row, collumn });
+				int newPosition[2] = { row, collumn };
+				Card cardBeingChecked = GetCard(newPosition);
 				for (int i = 0; i < 2; i++)
 				{
-					if (GetRoyal(NearestRoyalToCard(new int[2]{ row, collumn }, i)).GetValue() == Card().GetValue())
+					//if there's an open royal place
+					if (GetRoyal(NearestRoyalToCard(newPosition, i)).GetValue() == Card().GetValue())
 					{
+						// if same colour as royal and not an empty card
 						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != 0)
 						{
-							if (GetCard(position).GetSuit() != royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
+							//if last card's suit doesn't match royals suit and new card's suit matches royal's suit
+							if (GetCard(finalPosition).GetSuit() != royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
 							{
-								position[0] = row;
-								position[1] = collumn;
+								finalPosition[0] = newPosition[0];
+								finalPosition[1] = newPosition[1];
 							}
-							else if (GetCard(position).GetSuit() % 2 != royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != royal.GetSuit())
+							//if last card isn't same colour as royal
+							else if (GetCard(finalPosition).GetSuit() % 2 != royal.GetSuit() % 2)
 							{
-								position[0] = row;
-								position[1] = collumn;
+								finalPosition[0] = newPosition[0];
+								finalPosition[1] = newPosition[1];
 							}
-							else if (GetCard(position).GetSuit() == cardBeingChecked.GetSuit() && cardBeingChecked.GetValue() > GetCard(position).GetValue())
+							//if last card and new card are same suit and new card is higher in value than last card
+							else if (GetCard(finalPosition).GetSuit() == cardBeingChecked.GetSuit() && cardBeingChecked.GetValue() > GetCard(finalPosition).GetValue())
 							{
-								position[0] = row;
-								position[1] = collumn;
+								finalPosition[0] = newPosition[0];
+								finalPosition[1] = newPosition[1];
 							}
 						}
-						else if (cardBeingChecked.GetValue() >= GetCard(position).GetValue() && GetCard(position).GetSuit() % 2 != royal.GetSuit() % 2)
+						//if new card is higher than or equal to old card and old card isn't same colour as royal
+						else if (cardBeingChecked.GetValue() >= GetCard(finalPosition).GetValue() && GetCard(finalPosition).GetSuit() % 2 != royal.GetSuit() % 2)
 						{
-							position[0] = row;
-							position[1] = collumn;
+							finalPosition[0] = newPosition[0];
+							finalPosition[1] = newPosition[1];
 						}
-						else if (position[0] == 1 && position[1] == 1)
+						//if the middle square is selected
+						else if (finalPosition[0] == 1 && finalPosition[1] == 1)
 						{
-							position[0] = row;
-							position[1] = collumn;
+							finalPosition[0] = newPosition[0];
+							finalPosition[1] = newPosition[1];
 						}
 					}
 				}
@@ -320,10 +363,10 @@ void Grid::AddRoyal(Card royal)
 	//royal is placed
 	for (int i = 0; i < 2; i++)
 	{
-		if (GetRoyal(NearestRoyalToCard(position, i)).GetValue() == Card().GetValue())
+		if (GetRoyal(NearestRoyalToCard(finalPosition, i)).GetValue() == Card().GetValue())
 		{
-			int* posRoyal = { NearestRoyalToCard(position, i) };
-			SetRoyal(royal, posRoyal);
+			int* royalPosition = { NearestRoyalToCard(finalPosition, i) };
+			SetRoyal(royal, royalPosition);
 			break;
 		}
 	}

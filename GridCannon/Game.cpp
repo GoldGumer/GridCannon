@@ -34,6 +34,8 @@ void Game::PlaceCard(int coordinate[2])
 		}
 		currentCard = playerDeck.GetTopCard();
 	}
+	delete[] coordinate;
+	coordinate = NULL;
 }
 
 void Game::InputManager()
@@ -118,12 +120,8 @@ Game::Game()
 
 	while (!royalsFound.empty())
 	{
-		cout << royalsFound.back().GetValue() << royalsFound.back().GetSuit() << endl;
 		playerGrid.AddRoyal(royalsFound.back());
 		royalsFound.pop_back();
-
-		playerGrid.Display();
-		DisplayCard();
 	}
 
 	currentCard = playerDeck.GetTopCard();
