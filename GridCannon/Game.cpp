@@ -12,6 +12,7 @@ void Game::DisplayCard()
 		currentCard.Display(cardLayer);
 		cout << endl;
 	}
+	cout << "Deck Size : " << playerDeck.GetLength() << endl;
 }
 
 void Game::PlaceCard(int coordinate[2])
@@ -20,7 +21,7 @@ void Game::PlaceCard(int coordinate[2])
 	{
 		playerGrid.AddCard(currentCard, coordinate);
 		playerGrid.CannonActivation(coordinate);
-		while (playerDeck.LookAtTopCard().GetValue() > 10 || playerDeck.LookAtTopCard().GetValue() < 2)
+		while (playerDeck.LookAtTopCard().GetValue() > 10 || (playerDeck.LookAtTopCard().GetValue() < 2 && playerDeck.LookAtTopCard().GetValue() >= 0))
 		{
 			if (playerDeck.LookAtTopCard().GetValue() > 10)
 			{
@@ -98,7 +99,8 @@ Game::Game()
 		{
 			if (row != 1 || collumn != 1)
 			{
-				while (playerDeck.LookAtTopCard().GetValue() > 10 || playerDeck.LookAtTopCard().GetValue() < 2)
+				//while a card is a royal or ace/joker add it to royalsFound or the ploys in playerGrid
+				while (playerDeck.LookAtTopCard().GetValue() > 10 || (playerDeck.LookAtTopCard().GetValue() < 2 && playerDeck.LookAtTopCard().GetValue() >= 0))
 				{
 					if (playerDeck.LookAtTopCard().GetValue() > 10)
 					{
@@ -120,7 +122,7 @@ Game::Game()
 		royalsFound.pop_back();
 	}
 
-	while (currentCard.GetValue() > 10 || currentCard.GetValue() < 2)
+	while (currentCard.GetValue() > 10 || (currentCard.GetValue() < 2 && currentCard.GetValue() >= 0))
 	{
 		if (currentCard.GetValue() > 10)
 		{
@@ -136,10 +138,12 @@ Game::Game()
 
 	while (playerDeck.GetLength() > 0 && currentCard.GetValue() != Card().GetValue())
 	{
-		//system("CLS");
+		system("CLS");
 		//"evil way" https://www.cplusplus.com/articles/4z18T05o/
 		playerGrid.Display();
 		DisplayCard();
 		InputManager();
 	}
+	playerGrid.Display();
+	DisplayCard();
 }

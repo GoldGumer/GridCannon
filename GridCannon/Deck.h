@@ -7,7 +7,7 @@ class Deck
 {
 private:
 	list<Card> playerCards;
-	void OverHandShfl(int deviation, int fixedAmountTaken);
+	void OverHandShuffle(int deviation, int fixedAmountTaken);
 	void Cut(int deviation);
 	void Shuffle();
 public:

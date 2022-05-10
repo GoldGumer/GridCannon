@@ -141,6 +141,7 @@ Card::Card(string faceValue)
 	displayGraphics[8] = "|____________|";
 }
 
+//Default call will return space matching that of a card
 Card::Card()
 {
 	faceValue = "-10";

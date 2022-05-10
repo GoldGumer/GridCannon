@@ -4,7 +4,11 @@ using namespace std;
 
 //private
 
-void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
+
+//Realistic over hand shuffle implementation using one list and two iterators
+//Higher deviation = more random card placements
+//fixedAmountTaken should be set higher the bigger the deck
+void Deck::OverHandShuffle(int deviation, int fixedAmountTaken)
 {
 	list<Card>::iterator topIt = playerCards.begin();
 	list<Card>::iterator botIt = playerCards.end();
@@ -17,11 +21,15 @@ void Deck::OverHandShfl(int deviation, int fixedAmountTaken)
 	}
 }
 
+//Moves one half of the deck over the other half
 void Deck::Cut(int deviation)
 {
-	list<Card>::iterator it = playerCards.begin();
-	advance(it, rand() % deviation + (GetLength() / 2) - ((deviation - 1) / 2));
-	playerCards.splice(playerCards.begin(), playerCards, it, playerCards.end());
+	if (deviation < (GetLength() / 2))
+	{
+		list<Card>::iterator it = playerCards.begin();
+		advance(it, rand() % deviation + (GetLength() / 2) - ((deviation - 1) / 2));
+		playerCards.splice(playerCards.begin(), playerCards, it, playerCards.end());
+	}
 }
 
 void Deck::Shuffle()
@@ -29,7 +37,7 @@ void Deck::Shuffle()
 	for (int i = 0; i < 25; i++)
 	{
 		srand((unsigned int)time(0) + i);
-		OverHandShfl(19, 9);
+		OverHandShuffle(19, 9);
 		Cut(10);
 	}
 }
@@ -38,6 +46,7 @@ void Deck::Shuffle()
 
 Deck::Deck()
 {
+	///Makes french style deck with 2 jokers
 	for (int suit = 1; suit < 5; suit++)
 	{
 		for (int value = 9; value < 14; value++)
@@ -59,14 +68,6 @@ Deck::Deck()
 	Shuffle();
 }
 
-Card Deck::GetTopCard()
-{
-	if (playerCards.size() <= 0) return Card();
-	Card topCard = playerCards.front();
-	playerCards.pop_front();
-	return topCard;
-}
-
 void Deck::PushBack(list<Card> pileToAdd)
 {
 	playerCards.splice(playerCards.end(), pileToAdd);
@@ -74,8 +75,16 @@ void Deck::PushBack(list<Card> pileToAdd)
 
 Card Deck::LookAtTopCard()
 {
-	if (playerCards.size() <= 0) return Card();
+	if (GetLength() <= 0) return Card();
 	return playerCards.front();
+}
+
+//Same as LookAtTopCard() but gets rid of the top card as well
+Card Deck::GetTopCard()
+{
+	Card topCard = LookAtTopCard();
+	playerCards.pop_front();
+	return topCard;
 }
 
 int Deck::GetLength()

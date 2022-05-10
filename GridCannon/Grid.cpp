@@ -70,32 +70,41 @@ int* Grid::NearestRoyalToCard(int pos[2], bool returnVertical)
 
 void Grid::CannonActivation(int coordinate[2])
 {
+	//For loop to check both Horizontal and Vertical directions
 	/*
 	0 = vertical checks 
 	1 = horizontal checks
 	*/
 	for (int i = 0; i < 2; i++)
 	{
+		//Defaults to 0 if its one of the middle cards
 		int directionToCheck = 0;
 		switch (coordinate[i])
 		{
 		case 0:
+			//Right or Up
 			directionToCheck = 1;
 			break;
 		case 2:
+			//Left or Down
 			directionToCheck = -1;
 			break;
 		default:
 			break;
 		}
+		//Both come out zero if its the middle square being checked
+		//One is always 0 if the other is being checked
 		int horizontalMultiplier = (i * directionToCheck);
 		int verticalMultiplier = (((i - 1) * -1) * directionToCheck);
+		//Position is being passed since we need to change the card if the if statement is true
 		int* royalPositionToCheck = NearestRoyalToCard(new int[2]{ coordinate[0] + (verticalMultiplier * 2) , coordinate[1] + (horizontalMultiplier * 2) }, !i);
 		if (GetRoyal(royalPositionToCheck).GetValue() != Card().GetValue() && GetRoyal(royalPositionToCheck).GetValue() <= 
 			GetCard(new int[2]{ coordinate[0] + (verticalMultiplier * 2) , coordinate[1] + (horizontalMultiplier * 2) }).GetValue() +
 			GetCard(new int[2]{ coordinate[0] + (verticalMultiplier * 1) , coordinate[1] + (horizontalMultiplier * 1) }).GetValue() &&
 			horizontalMultiplier != verticalMultiplier)
 		{
+			//"999" since it prevents another royal from being placed ontop and 
+			//Also gives a blank card instead of an empty space
 			SetRoyal(Card("999"), royalPositionToCheck);
 		}
 	}
@@ -143,17 +152,22 @@ Card Grid::GetRoyal(int coordinate[2])
 	else if (coordinate[0] > 3) coordinate[0] = 3;
 	if (coordinate[1] < 0)coordinate[1] = 0;
 	else if (coordinate[1] > 2)coordinate[1] = 2;
+
 	Card royalToReturn = royals[coordinate[0]][coordinate[1]];
+
 	delete[] coordinate;
 	coordinate = NULL;
+
 	return royalToReturn;
 }
 
 void Grid::AddPloy(Card ployCard)
 {
+	//Checking suit since jokers are the only card with suit = 0
+	//Also all aces can be sorted easily this way
 	switch (ployCard.GetSuit())
 	{
-	//checking if the suit is 0 since joker is the only card with suit 0
+	
 	case 0:
 		if (ploys[4].GetValue() == Card().GetValue())
 		{
@@ -190,6 +204,7 @@ list<Card> Grid::PloyAce(int coordinate[2])
 		{
 			pile = playingField[coordinate[0]][coordinate[1]];
 			pile.reverse();
+			//"999" so no other ace can be placed over the top of it
 			ploys[i] = Card("999");
 			playingField[coordinate[0]][coordinate[1]].clear();
 			break;
@@ -204,7 +219,7 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 	{
 		if (ploys[3 + i].GetValue() == 0)
 		{
-			playingField[placeToMove[0]][placeToMove[1]].push_front(playingField[cardToMove[0]][cardToMove[1]].front());
+			AddCard(GetCard(cardToMove), placeToMove);
 			playingField[cardToMove[0]][cardToMove[1]].pop_front();
 			CannonActivation(placeToMove);
 			ploys[3 + i] = Card("999");
@@ -217,7 +232,7 @@ void Grid::Display()
 {
 	//The grid is setup in a way where cards will be added from left to right on each row
 	//because of this we have to loop throught collumns first then rows
-	//We do 2 extra loops for row since we need one before and after the playerField is displayed to show royals
+	//We do 3 extra loops for row since we need to display royals and ploys above and below the playingField
 	for (int row = 0; row < 6; row++)
 	{
 		for (int cardLayer = 0; cardLayer < 9; cardLayer++)
@@ -241,6 +256,7 @@ void Grid::Display()
 				}
 				GetRoyal(new int[2]{ 1, row - 1 }).Display(cardLayer);
 			}
+
 			else if (row == 5)
 			{
 				for (int i = 0; i < 6; i++)
@@ -253,6 +269,7 @@ void Grid::Display()
 	}
 }
 
+//Automatic royal adding
 void Grid::AddRoyal(Card royal)
 {
 	int position[2] = { 1 };
@@ -267,7 +284,7 @@ void Grid::AddRoyal(Card royal)
 				{
 					if (GetRoyal(NearestRoyalToCard(new int[2]{ row, collumn }, i)).GetValue() == Card().GetValue())
 					{
-						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != Card().GetSuit())
+						if (cardBeingChecked.GetSuit() % 2 == royal.GetSuit() % 2 && cardBeingChecked.GetSuit() != 0)
 						{
 							if (GetCard(position).GetSuit() != royal.GetSuit() && cardBeingChecked.GetSuit() == royal.GetSuit())
 							{
