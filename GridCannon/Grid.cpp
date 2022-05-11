@@ -221,7 +221,7 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 			AddCard(GetCard(cardToMove), placeToMove);
 			playingField[cardToMove[0]][cardToMove[1]].pop_front();
 			CannonActivation(placeToMove);
-			ploys[3 + i] = Card("999");
+			ploys[4 + i] = Card("999");
 			break;
 		}
 	}
