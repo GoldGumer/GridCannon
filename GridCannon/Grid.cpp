@@ -216,7 +216,7 @@ void Grid::PloyJoker(int cardToMove[2], int placeToMove[2])
 {
 	for (int i = 0; i < 2; i++)
 	{
-		if (ploys[3 + i].GetValue() == 0)
+		if (ploys[4 + i].GetValue() == 0)
 		{
 			AddCard(GetCard(cardToMove), placeToMove);
 			playingField[cardToMove[0]][cardToMove[1]].pop_front();
