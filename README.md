@@ -33,7 +33,6 @@ and the sum of the two cards between the just placed card and the royal is highe
 The game officially ends when the last card is drawn.
 
 ## Known Bugs
-- The second Joker can't be used
 - Sometimes some royals are not placed
 - On earlier builds the game crashed when starting the game(not sure if it still happens)
 
